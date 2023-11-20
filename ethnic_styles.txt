@@ -1,0 +1,5 @@
+caucasian
+african
+asian
+indian
+latino
