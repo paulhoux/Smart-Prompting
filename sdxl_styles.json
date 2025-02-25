@@ -430,6 +430,11 @@
       "negative_prompt": "(text), mickey ears, worst quality, poorly drawn, bad art, boring, deformed, bad composition, crappy artwork, bad lighting, ugly, amputee, deformed"
     },
     {
+      "name": "Disney Sketch",
+      "prompt": "Glen Keane character concept art (black and white) pencil sketch of {prompt}. (rough pencil sketch by Glen Keane:1.2), rough pencil sketch, close up, loose Disney-style character concept art sketch, (nice sketchy pencil strokes), Disney character design sketch, pencil texture, a concept art pencil sketch of {prompt}, (by Glen Keane:1.3)",
+      "negative_prompt": "{prompt}, a photo, photorealistic style, with color, (a bad photo), bad digital art, bad 3D render, gradient, overly detailed, high contrast, bloom, a color photo, smooth shading, hilariously bad drawings, bad anatomy, bad art, 3D, a photo, soft shadows, lot of color"
+    },
+    {
       "name": "Studio Ghibli",
       "prompt": "{prompt}, (studio ghibli style art:1.3), sharp, very detailed, high resolution, inspired by hayao miyazaki, anime, art from ghibli movie, natural beauty",
       "negative_prompt": "(worst quality, low quality:1.3), low-quality, deformed, text, poorly drawn, ugly, amputee, deformed"
