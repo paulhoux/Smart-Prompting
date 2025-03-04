@@ -488,5 +488,10 @@
       "name": "Blueprint",
       "prompt": "23rd century scientific schematics for {prompt}, blueprint, hyperdetailed vector technical documents, callouts, legend, patent registry, annotated",
       "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic"
-    }
+    },
+    {
+      "name": "Character Sheet",
+      "prompt": "{prompt}, character sheet, concept design, contrast, style by kim jung gi, zabrocki, karlkka, jayison devadas, trending on artstation, 8k, ultra wide angle, pincushion lens effect",
+      "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic"
+    }    
   ]
