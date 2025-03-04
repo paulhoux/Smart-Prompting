@@ -486,7 +486,7 @@
     },
     {
       "name": "Blueprint",
-      "prompt": "A highly detailed blueprint of {prompt} showcasing accurate scale and measurement. The plan is to-scale, featuring explicit measurements and a transparent overlay displaying the exterior structure, with annotations for the material specifications. Technical annotation spaces, illustrations, detailed",
-      "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic, minimalist"
+      "prompt": "23rd century scientific schematics for {prompt}, blueprint, hyperdetailed vector technical documents, callouts, legend, patent registry, annotated",
+      "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic"
     }
   ]
