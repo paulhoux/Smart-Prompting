@@ -470,9 +470,9 @@
       "negative_prompt": "(worst quality, low quality:1.3), , bad photo, bad art, boring, bad 3D render, worst quality, ugly, blurry, low quality, poorly drawn, bad composition, deformed, bad 3D render, disfigured, bad anatomy, compression artifacts, dead, soulless, photorealistic, ugly, amputee, deformed"
     },
     {
-      "name": "Cute Figurine",
-      "prompt": "{prompt}, figurine, modern Disney style, octane render, chibi",
-      "negative_prompt": "{prompt}, low-quality, deformed, text, poorly drawn"
+      "name": "Sumi-e",
+      "prompt": "{prompt}, in the style of Sumi-e drawing, elegant and fluid brushstrokes with natural ink flow, fading from deep black to soft gray, textured brush details, resembling a hand-painted sumi-e artwork. traditional ink painting, calligraphy, wabi-sabi aesthetics, high detail, soft contrast.",
+      "negative_prompt": "{prompt}"
     },
     {
       "name": "Medieval",
