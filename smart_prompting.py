@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import folder_paths
 
@@ -51,6 +52,111 @@ def get_style_names(filename):
         names.append(style["name"])
 
     return names
+
+
+# ---------------------------------------------------------------------------
+# Style catalog
+#
+# Styles live in the 'styles' sub folder, one JSON file per category. Each file
+# holds a list of {"name", "prompt", "negative_prompt"} entries, the same format
+# used by Fooocus / SDXL Prompt Styler. Drop in your own file and it shows up as
+# a new category after a restart.
+#
+# The legacy 'sdxl_styles.json' in the node folder is still used as a fallback
+# when the 'styles' folder is missing.
+# ---------------------------------------------------------------------------
+styles_dir = os.path.join(base_dir, "styles")
+
+ALL_CATEGORIES = "all"
+
+_catalog_cache = None
+
+def _category_label(filename):
+    # "04_art_movements.json" -> "art movements"
+    label = os.path.splitext(filename)[0]
+    label = re.sub(r'^\d+[_\-\s]*', '', label)
+    label = label.replace('_', ' ').replace('-', ' ').strip()
+    return label or os.path.splitext(filename)[0]
+
+def get_style_catalog(refresh=False):
+    """Returns an OrderedDict of {category name: [style, ...]}."""
+    global _catalog_cache
+    if _catalog_cache is not None and not refresh:
+        return _catalog_cache
+
+    catalog = {}
+    if os.path.isdir(styles_dir):
+        for filename in sorted(os.listdir(styles_dir)):
+            if not filename.lower().endswith(".json"):
+                continue
+            try:
+                data = load_styles(os.path.join(styles_dir, filename))
+            except Exception as error:
+                print(f"[smart-prompting] Could not load styles from {filename}: {error}")
+                continue
+            if isinstance(data, list) and data:
+                catalog[_category_label(filename)] = data
+
+    if not catalog:
+        # Fallback to the original single file.
+        try:
+            catalog["sdxl styles"] = load_styles('sdxl_styles.json')
+        except Exception as error:
+            print(f"[smart-prompting] Could not load sdxl_styles.json: {error}")
+            catalog["sdxl styles"] = []
+
+    _catalog_cache = catalog
+    return catalog
+
+def get_category_names():
+    return [ALL_CATEGORIES] + list(get_style_catalog().keys())
+
+def get_all_style_names():
+    """Every style name across all categories (the combo box needs the full
+    list, the category widget only filters what is shown in the UI)."""
+    names = []
+    seen = set()
+    for styles in get_style_catalog().values():
+        for style in styles:
+            name = style.get("name")
+            if name and name not in seen:
+                seen.add(name)
+                names.append(name)
+    return names
+
+def find_style(style_name, category=ALL_CATEGORIES):
+    """Look in the selected category first, then anywhere else."""
+    catalog = get_style_catalog()
+
+    ordered = []
+    if category in catalog:
+        ordered.append(catalog[category])
+    ordered.extend(styles for name, styles in catalog.items() if name != category)
+
+    for styles in ordered:
+        for style in styles:
+            if style.get("name") == style_name:
+                return style
+    return None
+
+def apply_style(style, positive, negative):
+    """Merges a style entry with the incoming prompts."""
+    prompt = positive
+    negative_prompt = negative
+
+    if style is not None:
+        template = (style.get("prompt") or "").strip()
+        if "{prompt}" in template:
+            prompt = template.replace("{prompt}", positive)
+        elif template:
+            # Styles without a placeholder (e.g. some Fooocus ones) get appended.
+            prompt = (positive + ", " + template) if positive.strip() else template
+
+        extra_negative = (style.get("negative_prompt") or "").strip()
+        if extra_negative:
+            negative_prompt = (negative.strip() + ", " + extra_negative) if negative.strip() else extra_negative
+
+    return prompt, negative_prompt
 
 
 class TextString:
@@ -182,31 +288,26 @@ class TextStyleSelector:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"style": (get_style_names('sdxl_styles.json'), ), "positive": ("TEXT", ), "negative": ("TEXT", )}}
+        # NOTE: 'style' stays the first widget so existing workflows keep loading
+        # their saved style. 'category' only filters the list shown in the UI, so
+        # the style combo must contain every style name for validation to pass.
+        return {"required": {
+            "style": (get_all_style_names(), ),
+            "category": (get_category_names(), ),
+            "positive": ("TEXT", ),
+            "negative": ("TEXT", )}}
     RETURN_TYPES = ("TEXT","TEXT",)
     RETURN_NAMES = ("POSITIVE", "NEGATIVE",)
     FUNCTION = "action"
 
     CATEGORY = "text"
 
-    def action(self, style, positive, negative):
-        # Obtain styles
-        styles = load_styles('sdxl_styles.json')
+    def action(self, style, positive, negative, category=ALL_CATEGORIES):
+        item = find_style(style, category)
+        if item is None:
+            print(f"[smart-prompting] Warning: style '{style}' not found, passing prompts through")
 
-        # Select style (zero based)
-        prompt = positive
-        negative_prompt = negative
-
-        for item in styles:
-            if( item["name"] == style ):
-                # Replace prompt
-                prompt = item["prompt"]
-                negative_prompt = item["negative_prompt"]
-
-                prompt = prompt.replace("{prompt}",positive)
-                negative_prompt = negative + ", " + negative_prompt
-                
-                break
+        prompt, negative_prompt = apply_style(item, positive, negative)
 
         print(f"Prompt:", prompt)
         print(f"Negative Prompt:", negative_prompt)
@@ -321,6 +422,24 @@ class SaveImageWithPrefix:
 
         return { "ui": { "images": results } }
     
+# ---------------------------------------------------------------------------
+# Small API endpoint so the front end can filter the style list by category.
+# ---------------------------------------------------------------------------
+try:
+    from server import PromptServer
+    from aiohttp import web
+
+    @PromptServer.instance.routes.get("/smart-prompting/styles")
+    async def _smart_prompting_styles(request):
+        catalog = get_style_catalog(refresh=request.query.get("refresh") == "1")
+        return web.json_response({
+            "all": ALL_CATEGORIES,
+            "categories": {name: [s.get("name") for s in styles] for name, styles in catalog.items()},
+        })
+except Exception as error:
+    print(f"[smart-prompting] Style category endpoint not registered: {error}")
+
+
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Horror",
+    "prompt": "Horror-themed {prompt} . Eerie, unsettling, dark, spooky, suspenseful, grim, highly detailed",
+    "negative_prompt": "cheerful, bright, vibrant, light-hearted, cute"
+  },
+  {
+    "name": "Gothic",
+    "prompt": "Gothic style {prompt} . Dark, mysterious, haunting, dramatic, ornate, detailed",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic, cheerful, optimistic"
+  },
+  {
+    "name": "Lovecraftian",
+    "prompt": "lovecraftian horror {prompt} . eldritch, cosmic horror, unknown, mysterious, surreal, highly detailed",
+    "negative_prompt": "light-hearted, mundane, familiar, simplistic, realistic"
+  },
+  {
+    "name": "Macabre",
+    "prompt": "macabre style {prompt} . dark, gothic, grim, haunting, highly detailed",
+    "negative_prompt": "bright, cheerful, light-hearted, cartoonish, cute"
+  },
+  {
+    "name": "Bad Dream",
+    "prompt": "picture from really bad dream about terrifying {prompt}, true horror. bone-chilling vision. mad world that shouldn't exist. best quality, high resolution",
+    "negative_prompt": "nice dream, pleasant experience. low quality, low resolution"
+  },
+  {
+    "name": "Dark Dream",
+    "prompt": "dark and unsettling dream showing {prompt}. best quality, high resolution. created by genius but depressed mad artist. grim beauty",
+    "negative_prompt": "naive, cheerful. comfortable, casual, boring, cliche. low quality, low resolution"
+  },
+  {
+    "name": "Gloomy Art",
+    "prompt": "astonishing gloomy art made mainly of shadows and lighting, forming {prompt}. masterful usage of lighting, shadows and chiaroscuro. made by black-hearted artist, drawing from darkness. best quality, high resolution",
+    "negative_prompt": "low quality, low resolution"
+  },
+  {
+    "name": "Undead Art",
+    "prompt": "long forgotten art created by undead artist illustrating {prompt}, tribute to the death and decay. miserable art of the damned. wretched and decaying world. best quality, high resolution",
+    "negative_prompt": "alive, playful, living. low quality, low resolution"
+  },
+  {
+    "name": "Underground",
+    "prompt": "uncanny caliginous vision of {prompt}, created by remarkable underground artist. best quality, high resolution. raw and brutal art, careless but impressive style. inspired by darkness and chaos",
+    "negative_prompt": "photography, mainstream, civilized. low quality, low resolution"
+  },
+  {
+    "name": "Grunge",
+    "prompt": "Grunge style {prompt} . Textured, distressed, vintage, edgy, punk rock vibe, dirty, noisy",
+    "negative_prompt": "smooth, clean, minimalist, sleek, modern, photorealistic"
+  }
+]

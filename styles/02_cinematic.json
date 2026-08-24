@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Cinematic",
+    "prompt": "cinematic film still {prompt} . shallow depth of field, vignette, highly detailed, high budget, bokeh, cinemascope, moody, epic, gorgeous, film grain, grainy",
+    "negative_prompt": "anime, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured"
+  },
+  {
+    "name": "Cinematic Diva",
+    "prompt": "UHD, 8K, ultra detailed, a cinematic photograph of {prompt}, beautiful lighting, great composition",
+    "negative_prompt": "ugly, deformed, noisy, blurry, NSFW"
+  },
+  {
+    "name": "Cinematic Dynamic",
+    "prompt": "epic cinematic shot of dynamic {prompt} in motion. main subject of high budget action movie. raw photo, motion blur. best quality, high resolution",
+    "negative_prompt": "static, still, motionless, sluggish. drawing, painting, illustration, rendered. low budget. low quality, low resolution"
+  },
+  {
+    "name": "Spontaneous Picture",
+    "prompt": "spontaneous picture of {prompt}, taken by talented amateur. best quality, high resolution. magical moment, natural look. simple but good looking",
+    "negative_prompt": "overthinked. low quality, low resolution"
+  },
+  {
+    "name": "Vibrant Rim Light",
+    "prompt": "Vibrant Rim Light, {prompt}, bright rim light, high contrast, bold edge light",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Volumetric Lighting",
+    "prompt": "Volumetric Lighting, {prompt}, light depth, dramatic atmospheric lighting, Volumetric Lighting",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Dark Moody Atmosphere",
+    "prompt": "Dark Moody Atmosphere, {prompt}, dramatic, mysterious, dark moody atmosphere",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, vibrant, colorful, bright"
+  },
+  {
+    "name": "Light Cheery Atmosphere",
+    "prompt": "Light Cheery Atmosphere, {prompt}, happy, joyful, cheerful, carefree, gleeful, lighthearted, pleasant atmosphere",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, monochromatic, dark, moody"
+  },
+  {
+    "name": "Tranquil Relaxing Atmosphere",
+    "prompt": "Tranquil Relaxing Atmosphere, {prompt}, calming style, soothing colors, peaceful, idealic, Tranquil Relaxing Atmosphere",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, oversaturated"
+  },
+  {
+    "name": "Idyllic",
+    "prompt": "Idyllic, {prompt}, peaceful, happy, pleasant, happy, harmonious, picturesque, charming",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  }
+]

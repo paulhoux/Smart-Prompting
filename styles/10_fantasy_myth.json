@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Fantasy Art",
+    "prompt": "ethereal fantasy concept art of  {prompt} . magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy",
+    "negative_prompt": "photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white"
+  },
+  {
+    "name": "Dark Fantasy",
+    "prompt": "Dark Fantasy Art, {prompt}, dark, moody, dark fantasy style",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, bright, sunny"
+  },
+  {
+    "name": "Fairy Tale",
+    "prompt": "Fairy tale {prompt} . Magical, fantastical, enchanting, storybook style, highly detailed",
+    "negative_prompt": "realistic, modern, ordinary, mundane"
+  },
+  {
+    "name": "Dreamscape",
+    "prompt": "Dreamscape {prompt} . Surreal, ethereal, dreamy, mysterious, fantasy, highly detailed",
+    "negative_prompt": "realistic, concrete, ordinary, mundane"
+  },
+  {
+    "name": "Heroic Fantasy",
+    "prompt": "heroic fantasy painting of {prompt}, in the dangerous fantasy world. airbrush over oil on canvas. best quality, high resolution",
+    "negative_prompt": "low quality, low resolution"
+  },
+  {
+    "name": "Brave Art",
+    "prompt": "brave, shocking, and brutally true art showing {prompt}. inspired by courage and unlimited creativity. truth found in chaos. best quality, high resolution",
+    "negative_prompt": "low quality, low resolution"
+  },
+  {
+    "name": "Ancient Illustration",
+    "prompt": "sublime ancient illustration of {prompt}, predating human civilization. crude and simple, but also surprisingly beautiful artwork, made by genius primeval artist. best quality, high resolution",
+    "negative_prompt": "low quality, low resolution"
+  },
+  {
+    "name": "Elemental Art",
+    "prompt": "art illustrating insane amounts of raging elemental energy turning into {prompt}, avatar of elements. magical surrealism, wizardry. best quality, high resolution",
+    "negative_prompt": "photography, realistic, real. low quality, low resolution"
+  },
+  {
+    "name": "Astral Aura",
+    "prompt": "Astral Aura, {prompt}, astral, colorful aura, vibrant energy",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "DMT Art Style",
+    "prompt": "DMT Art Style, {prompt}, bright colors, surreal visuals, swirling patterns, DMT art style",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Psychedelic",
+    "prompt": "Psychedelic style {prompt} . Vibrant colors, swirling patterns, abstract forms, surreal, trippy",
+    "negative_prompt": "monochrome, black and white, low contrast, realistic, photorealistic, plain, simple"
+  },
+  {
+    "name": "Mandola Art",
+    "prompt": "Mandola art style, {prompt}, complex, circular design, mandola",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Glo-fi",
+    "prompt": "Glo-fi Art Style, {prompt}, dynamic, dramatic, vibrant colors, glo-fi art style",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Disco",
+    "prompt": "Disco-themed {prompt} . Vibrant, groovy, retro 70s style, shiny disco balls, neon lights, dance floor, highly detailed",
+    "negative_prompt": "minimalist, rustic, monochrome, contemporary, simplistic"
+  },
+  {
+    "name": "Whimsical and Playful",
+    "prompt": "Whimsical and Playful, {prompt}, imaginative, fantastical, bight colors, stylized, happy, Whimsical and Playful",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, drab, boring, moody"
+  }
+]

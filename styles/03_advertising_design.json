@@ -1,0 +1,117 @@
+[
+  {
+    "name": "Advertising",
+    "prompt": "Advertising poster style {prompt} . Professional, modern, product-focused, commercial, eye-catching, highly detailed",
+    "negative_prompt": "noisy, blurry, amateurish, sloppy, unattractive"
+  },
+  {
+    "name": "Automotive",
+    "prompt": "automotive advertisement style {prompt} . sleek, dynamic, professional, commercial, vehicle-focused, high-resolution, highly detailed",
+    "negative_prompt": "noisy, blurry, unattractive, sloppy, unprofessional"
+  },
+  {
+    "name": "Corporate",
+    "prompt": "corporate branding style {prompt} . professional, clean, modern, sleek, minimalist, business-oriented, highly detailed",
+    "negative_prompt": "noisy, blurry, grungy, sloppy, cluttered, disorganized"
+  },
+  {
+    "name": "Fashion Editorial",
+    "prompt": "fashion editorial style {prompt} . high fashion, trendy, stylish, editorial, magazine style, professional, highly detailed",
+    "negative_prompt": "outdated, blurry, noisy, unattractive, sloppy"
+  },
+  {
+    "name": "Gourmet Food Photography",
+    "prompt": "gourmet food photo of {prompt} . soft natural lighting, macro details, vibrant colors, fresh ingredients, glistening textures, bokeh background, styled plating, wooden tabletop, garnished, tantalizing, editorial quality",
+    "negative_prompt": "cartoon, anime, sketch, grayscale, dull, overexposed, cluttered, messy plate, deformed"
+  },
+  {
+    "name": "Luxury",
+    "prompt": "luxury product style {prompt} . elegant, sophisticated, high-end, luxurious, professional, highly detailed",
+    "negative_prompt": "cheap, noisy, blurry, unattractive, amateurish"
+  },
+  {
+    "name": "Retail",
+    "prompt": "retail packaging style {prompt} . vibrant, enticing, commercial, product-focused, eye-catching, professional, highly detailed",
+    "negative_prompt": "noisy, blurry, amateurish, sloppy, unattractive"
+  },
+  {
+    "name": "Food Photography",
+    "prompt": "Food photography style {prompt} . Appetizing, professional, culinary, high-resolution, commercial, highly detailed",
+    "negative_prompt": "unappetizing, sloppy, unprofessional, noisy, blurry"
+  },
+  {
+    "name": "Real Estate",
+    "prompt": "Real estate photography style {prompt} . Professional, inviting, well-lit, high-resolution, property-focused, commercial, highly detailed",
+    "negative_prompt": "dark, blurry, unappealing, noisy, unprofessional"
+  },
+  {
+    "name": "Logo Design",
+    "prompt": "Logo Design, {prompt}, dynamic graphic art, vector art, minimalist, professional logo design",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Infographic Drawing",
+    "prompt": "Infographic Drawing, {prompt}, diagram, infographic",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Sticker Designs",
+    "prompt": "Vector Art Stickers, {prompt}, professional vector design, sticker designs, Sticker Sheet",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Bauhaus-Style Poster",
+    "prompt": "Bauhaus-Style Poster, {prompt}, simple geometric shapes, clean lines, primary colors, Bauhaus-Style Poster",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Vintage Airline Poster",
+    "prompt": "vintage airline poster {prompt} . classic aviation fonts, pastel colors, elegant aircraft illustrations, scenic destinations, distressed textures, retro travel allure",
+    "negative_prompt": "modern fonts, bold colors, hyper-realistic, sleek design"
+  },
+  {
+    "name": "Vintage Travel Poster",
+    "prompt": "vintage travel poster {prompt} . retro fonts, muted colors, scenic illustrations, iconic landmarks, distressed textures, nostalgic vibes",
+    "negative_prompt": "modern fonts, vibrant colors, hyper-realistic, sleek design"
+  },
+  {
+    "name": "Typography",
+    "prompt": "Typographic art {prompt} . Stylized, intricate, detailed, artistic, text-based",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic"
+  },
+  {
+    "name": "50s Enamel Sign",
+    "prompt": "50s enamel sign of {prompt}, 50s advert enamel sign, masterpiece, authentic vintage enamel sign, natural beauty",
+    "negative_prompt": "ugly, amputee, deformed"
+  },
+  {
+    "name": "Simple Vector Art",
+    "prompt": "Simple Vector Art, {prompt}, 2D flat, simple shapes, minimalistic, professional graphic, flat color, high contrast, Simple Vector Art",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, 3D, photo, realistic"
+  },
+  {
+    "name": "Color Sketchnote",
+    "prompt": "Color sketchnote {prompt}. Hand-drawn elements, vibrant colors, visual hierarchy, playful illustrations, varied typography, graphic icons, organic and dynamic layout, personalized touches, creative expression, engaging storytelling.",
+    "negative_prompt": "monochromatic, geometric layout."
+  },
+  {
+    "name": "Architectural",
+    "prompt": "Architectural style {prompt} . Clean lines, geometric shapes, minimalist, modern, architectural drawing, highly detailed",
+    "negative_prompt": "curved lines, ornate, baroque, abstract, grunge"
+  },
+  {
+    "name": "High Fashion",
+    "prompt": "High Fashion, {prompt}, dynamic, dramatic, haute couture, elegant, ornate clothing, High Fashion",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Luxurious Elegance",
+    "prompt": "Luxurious Elegance, {prompt}, extravagant, ornate, designer, opulent, picturesque, lavish",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Ornate and Intricate",
+    "prompt": "Ornate and Intricate, {prompt}, decorative, highly detailed, elaborate, ornate, intricate",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  }
+]

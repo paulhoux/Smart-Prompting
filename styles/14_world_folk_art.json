@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Gond Painting",
+    "prompt": "Gond painting {prompt}. Intricate patterns, vibrant colors, detailed motifs, nature-inspired themes, tribal folklore, fine lines, intricate detailing, storytelling compositions, mystical and folkloric, cultural richness.",
+    "negative_prompt": "monochromatic, abstract shapes, minimalistic."
+  },
+  {
+    "name": "Palekh",
+    "prompt": "Palekh art {prompt}. Miniature paintings, intricate details, vivid colors, folkloric themes, lacquer finish, storytelling compositions, symbolic elements, Russian folklore influence, cultural and historical significance.",
+    "negative_prompt": "large-scale paintings."
+  },
+  {
+    "name": "Ukiyo-e",
+    "prompt": "Ukiyo-e {prompt}. Woodblock prints, vibrant colors, intricate details, depictions of landscapes, kabuki actors, beautiful women, cultural scenes, traditional Japanese art, artistic craftsmanship, historical significance.",
+    "negative_prompt": "absence of woodblock prints, muted colors, lack of intricate details, non-traditional Japanese themes, absence of cultural scenes."
+  },
+  {
+    "name": "Kalighat Painting",
+    "prompt": "Kalighat painting {prompt} . bold lines, vibrant colors, narrative storytelling, cultural motifs, flat compositions, expressive characters",
+    "negative_prompt": "subdued colors, intricate details, realistic portrayal, modern aesthetics"
+  },
+  {
+    "name": "Madhubani Painting",
+    "prompt": "Madhubani painting {prompt} . intricate patterns, vibrant colors, nature-inspired motifs, cultural storytelling, symmetry, folk art aesthetics",
+    "negative_prompt": "abstract, muted colors, minimalistic design, modern aesthetics"
+  },
+  {
+    "name": "Pichwai Painting",
+    "prompt": "Pichwai painting {prompt} . intricate detailing, vibrant colors, religious themes, nature motifs, devotional storytelling, gold leaf accents",
+    "negative_prompt": "minimalist, subdued colors, abstract design"
+  },
+  {
+    "name": "Patachitra Painting",
+    "prompt": "Patachitra painting {prompt} . bold outlines, vibrant colors, intricate detailing, mythological themes, storytelling, traditional craftsmanship",
+    "negative_prompt": "subdued colors, minimalistic, abstract, modern aesthetics"
+  },
+  {
+    "name": "Dayak Art",
+    "prompt": "Dayak art sculpture of {prompt} . intricate patterns, nature-inspired motifs, vibrant colors, traditional craftsmanship, cultural symbolism, storytelling",
+    "negative_prompt": "minimalist, monochromatic, modern"
+  },
+  {
+    "name": "Samoan Art",
+    "prompt": "Samoan art-inspired wooden sculpture {prompt} . traditional motifs, natural elements, bold colors, cultural symbolism, storytelling, craftsmanship",
+    "negative_prompt": "modern aesthetics, minimalist, abstract"
+  },
+  {
+    "name": "Tlingit Art",
+    "prompt": "Tlingit art {prompt} . formline design, natural elements, animal motifs, bold colors, cultural storytelling, traditional craftsmanship, Alaska traditional art, (totem:1.5)",
+    "negative_prompt": ""
+  },
+  {
+    "name": "Chicano Art",
+    "prompt": "Chicano art {prompt} . bold colors, cultural symbolism, muralism, lowrider aesthetics, barrio life, political messages, social activism, Mexico",
+    "negative_prompt": "monochromatic, minimalist, mainstream aesthetics"
+  },
+  {
+    "name": "Fayum Portrait",
+    "prompt": "Fayum portrait {prompt} . encaustic painting, realistic facial features, warm earth tones, serene expressions, ancient Egyptian influences",
+    "negative_prompt": "abstract, vibrant colors, exaggerated features, modern"
+  },
+  {
+    "name": "Illuminated Manuscript",
+    "prompt": "Illuminated manuscript {prompt} . intricate calligraphy, rich colors, detailed illustrations, gold leaf accents, ornate borders, religious, historical, medieval",
+    "negative_prompt": "modern typography, minimalist design, monochromatic, abstract themes"
+  },
+  {
+    "name": "Tribal",
+    "prompt": "Tribal style {prompt} . Indigenous, ethnic, traditional patterns, bold, natural colors, highly detailed",
+    "negative_prompt": "modern, futuristic, minimalist, pastel"
+  },
+  {
+    "name": "Nautical",
+    "prompt": "Nautical-themed {prompt} . Sea, ocean, ships, maritime, beach, marine life, highly detailed",
+    "negative_prompt": "landlocked, desert, mountains, urban, rustic"
+  }
+]

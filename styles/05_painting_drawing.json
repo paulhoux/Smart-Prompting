@@ -1,0 +1,137 @@
+[
+  {
+    "name": "Watercolor",
+    "prompt": "Watercolor painting {prompt} . Vibrant, beautiful, painterly, detailed, textural, artistic",
+    "negative_prompt": "anime, photorealistic, 35mm film, deformed, glitch, low contrast, noisy"
+  },
+  {
+    "name": "Watercolor 2",
+    "prompt": "Watercolor style painting, {prompt}, visible paper texture, colorwash, watercolor",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, photo, realistic"
+  },
+  {
+    "name": "Oil Painting - Realistic",
+    "prompt": "breathtaking oil painting, {prompt}, photorealistic oil painting, by charlie bowater, fine details, by wlop, trending on artstation, very detailed, natural beauty",
+    "negative_prompt": "low-quality, deformed, text, poorly drawn, worst quality, ugly, amputee, deformed"
+  },
+  {
+    "name": "Painterly",
+    "prompt": "Painterly digital painting {prompt}, by Ilya Kuvshinov with painterly brush strokes, masterpiece, natural beauty",
+    "negative_prompt": "blurry, noisy, deformed, flat, low contrast, unrealistic, oversaturated, underexposed, overexposed"
+  },
+  {
+    "name": "Pencil",
+    "prompt": "((black and white pencil drawing)) {prompt}, black and white breathtaking pencil illustration, highly detailed, (textured paper) pencil texture sketch, natural beauty",
+    "negative_prompt": "photo, render, text, blurry, noisy, deformed, flat, low contrast, unrealistic, oversaturated, underexposed, overexposed"
+  },
+  {
+    "name": "Pencil Sketch Drawing",
+    "prompt": "Pencil Sketch Drawing, {prompt}, black and white drawing, graphite drawing",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Concept Sketch",
+    "prompt": "black and white technical drawing showcasing a {prompt}, annotation details, masterpiece black and white, pencil strokes, annotated technical concept art sketch, pencil texture, natural beauty",
+    "negative_prompt": "blurry, noisy, deformed, flat, low contrast, unrealistic, oversaturated, underexposed, overexposed"
+  },
+  {
+    "name": "Colored Pencil Art",
+    "prompt": "Colored Pencil Art, {prompt}, colored pencil strokes, light color, visible paper texture, colored pencil art",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Crayon Drawing",
+    "prompt": "{prompt}, crayon drawing, natural beauty",
+    "negative_prompt": "low-quality, deformed, text, poorly drawn, ugly, amputee, deformed"
+  },
+  {
+    "name": "Marker Drawing",
+    "prompt": "Marker Drawing, {prompt}, bold marker lines, visibile paper texture, marker drawing",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, photograph, realistic"
+  },
+  {
+    "name": "Doodle Art",
+    "prompt": "Doodle Art Style, {prompt}, drawing, freeform, swirling patterns, doodle art style",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Line Art",
+    "prompt": "line art drawing {prompt} . professional, sleek, modern, minimalist, graphic, line art, vector graphics",
+    "negative_prompt": "anime, photorealistic, 35mm film, deformed, glitch, blurry, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, mutated, realism, realistic, impressionism, expressionism, oil, acrylic"
+  },
+  {
+    "name": "Silhouette Art",
+    "prompt": "Silhouette Art, {prompt}, high contrast, well defined, Silhouette Art",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "One Line Art",
+    "prompt": "One line art {prompt}. Continuous and unbroken black line, minimalistic, simplicity, economical use of space, flowing and dynamic, symbolic representations, contemporary aesthetic, evocative and abstract, white background.",
+    "negative_prompt": "disjointed lines, complexity, complex detailing."
+  },
+  {
+    "name": "Ink Dripping Drawing",
+    "prompt": "Ink Dripping Drawing, {prompt}, ink drawing, dripping ink",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, colorful, vibrant"
+  },
+  {
+    "name": "Dripping Paint Splatter Art",
+    "prompt": "Dripping Paint Splatter Art, {prompt}, dramatic, paint drips, splatters, dripping paint",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Japanese Ink Drawing",
+    "prompt": "Japanese Ink Drawing, {prompt}, ink drawing, inkwash, Japanese Ink Drawing",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, colorful, vibrant"
+  },
+  {
+    "name": "Sumi-e",
+    "prompt": "{prompt}, in the style of Sumi-e drawing, elegant and fluid brushstrokes with natural ink flow, fading from deep black to soft gray, textured brush details, resembling a hand-painted sumi-e artwork. traditional ink painting, calligraphy, wabi-sabi aesthetics, high detail, soft contrast.",
+    "negative_prompt": "{prompt}"
+  },
+  {
+    "name": "Sumi-e Symbolic",
+    "prompt": "big long brushstrokes of deep black sumi-e turning into symbolic painting of {prompt}. master level raw art. best quality, high resolution",
+    "negative_prompt": "photography, rendered. low quality, low resolution"
+  },
+  {
+    "name": "Sumi-e Detailed",
+    "prompt": "highly detailed black sumi-e painting of {prompt}. in-depth study of perfection, created by a master. best quality, high resolution",
+    "negative_prompt": "low quality, low resolution"
+  },
+  {
+    "name": "Graffiti",
+    "prompt": "Graffiti style {prompt} . Street art, vibrant, urban, detailed, tag, mural",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic"
+  },
+  {
+    "name": "Graffiti Art",
+    "prompt": "Graffiti Art Style, {prompt}, dynamic, dramatic, vibrant colors, graffiti art style",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast"
+  },
+  {
+    "name": "Coloring Book",
+    "prompt": "centered black and white high contrast line drawing, coloring book style,{prompt} . monochrome, blank white background",
+    "negative_prompt": "greyscale, gradients,shadows,shadow, colored, Red, Blue, Yellow, Green, Orange, Purple, Pink, Brown, Gray, Beige, Turquoise, Lavender, Cyan, Magenta, Olive, Indigo, black background"
+  },
+  {
+    "name": "Alcohol Ink Art",
+    "prompt": "Alcohol ink art {prompt}. Fluid and vibrant colors, unpredictable patterns, organic textures, translucent layers, abstract compositions, ethereal and dreamy effects, free-flowing movement, expressive brushstrokes, contemporary aesthetic, wet textured paper.",
+    "negative_prompt": "monochromatic, controlled patterns."
+  },
+  {
+    "name": "Surreal Painting",
+    "prompt": "surreal painting representing strange vision of {prompt}. harmonious madness, synergy with chance. unique artstyle, mindbending art, magical surrealism. best quality, high resolution",
+    "negative_prompt": "photography, illustration, drawing. realistic, possible. logical, sane. low quality, low resolution"
+  },
+  {
+    "name": "Artistic Vision",
+    "prompt": "powerful artistic vision of {prompt}. breathtaking masterpiece made by great artist. best quality, high resolution",
+    "negative_prompt": "insignificant, flawed, made by bad artist. low quality, low resolution"
+  },
+  {
+    "name": "Lyrical Geometry",
+    "prompt": "geometric and lyrical abstraction painting presenting {prompt}. oil on metal. best quality, high resolution",
+    "negative_prompt": "photography, realistic, drawing, rendered. low quality, low resolution"
+  }
+]

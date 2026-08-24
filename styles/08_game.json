@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Fighting Game",
+    "prompt": "Fighting game style {prompt} . Dynamic, vibrant, action-packed, detailed character design, reminiscent of fighting video games",
+    "negative_prompt": "peaceful, calm, minimalist, photorealistic"
+  },
+  {
+    "name": "GTA",
+    "prompt": "GTA-style artwork {prompt} . Satirical, exaggerated, pop art style, vibrant colors, iconic characters, action-packed",
+    "negative_prompt": "realistic, black and white, low contrast, impressionist, cubist, noisy, blurry, deformed"
+  },
+  {
+    "name": "Super Mario",
+    "prompt": "Super Mario style {prompt} . Vibrant, cute, cartoony, fantasy, playful, reminiscent of Super Mario series",
+    "negative_prompt": "realistic, modern, horror, dystopian, violent"
+  },
+  {
+    "name": "Minecraft",
+    "prompt": "Minecraft style {prompt} . Blocky, pixelated, vibrant colors, recognizable characters and objects, game assets",
+    "negative_prompt": "smooth, realistic, detailed, photorealistic, noise, blurry, deformed"
+  },
+  {
+    "name": "Pokémon",
+    "prompt": "Pokémon style {prompt} . Vibrant, cute, anime, fantasy, reminiscent of Pokémon series",
+    "negative_prompt": "realistic, modern, horror, dystopian, violent"
+  },
+  {
+    "name": "Retro Arcade",
+    "prompt": "Retro arcade style {prompt} . 8-bit, pixelated, vibrant, classic video game, old school gaming, reminiscent of 80s and 90s arcade games",
+    "negative_prompt": "modern, ultra-high resolution, photorealistic, 3D"
+  },
+  {
+    "name": "Retro Game",
+    "prompt": "Retro game art {prompt} . 16-bit, vibrant colors, pixelated, nostalgic, charming, fun",
+    "negative_prompt": "realistic, photorealistic, 35mm film, deformed, glitch, low contrast, noisy"
+  },
+  {
+    "name": "RPG Fantasy Game",
+    "prompt": "Role-playing game (RPG) style fantasy {prompt} . Detailed, vibrant, immersive, reminiscent of high fantasy RPG games",
+    "negative_prompt": "sci-fi, modern, urban, futuristic, low detailed"
+  },
+  {
+    "name": "Strategy Game",
+    "prompt": "Strategy game style {prompt} . Overhead view, detailed map, units, reminiscent of real-time strategy video games",
+    "negative_prompt": "first-person view, modern, photorealistic"
+  },
+  {
+    "name": "Street Fighter",
+    "prompt": "Street Fighter style {prompt} . Vibrant, dynamic, arcade, 2D fighting game, highly detailed, reminiscent of Street Fighter series",
+    "negative_prompt": "3D, realistic, modern, photorealistic, turn-based strategy"
+  },
+  {
+    "name": "Legend of Zelda",
+    "prompt": "Legend of Zelda style {prompt} . Vibrant, fantasy, detailed, epic, heroic, reminiscent of The Legend of Zelda series",
+    "negative_prompt": "sci-fi, modern, realistic, horror"
+  },
+  {
+    "name": "Bubble Bobble",
+    "prompt": "Bubble Bobble style {prompt} . 8-bit, cute, pixelated, fantasy, vibrant, reminiscent of Bubble Bobble game",
+    "negative_prompt": "realistic, modern, photorealistic, violent, horror"
+  },
+  {
+    "name": "Cyberpunk Game",
+    "prompt": "cyberpunk game style {prompt} . neon, dystopian, futuristic, digital, vibrant, detailed, high contrast, reminiscent of cyberpunk genre video games",
+    "negative_prompt": "historical, natural, rustic, low detailed"
+  }
+]

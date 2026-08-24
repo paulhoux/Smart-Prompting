@@ -1,0 +1,152 @@
+[
+  {
+    "name": "Craft Clay",
+    "prompt": "play-doh style {prompt} . sculpture, clay art, centered composition, Claymation",
+    "negative_prompt": "sloppy, messy, grainy, highly detailed, ultra textured, photo"
+  },
+  {
+    "name": "Origami",
+    "prompt": "origami style {prompt} . paper art, pleated paper, folded, origami art, pleats, cut and fold, centered composition",
+    "negative_prompt": "noisy, sloppy, messy, grainy, highly detailed, ultra textured, photo"
+  },
+  {
+    "name": "Stained Glass",
+    "prompt": "Stained glass style {prompt} . Vibrant, beautiful, translucent, intricate, detailed",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic"
+  },
+  {
+    "name": "Zentangle",
+    "prompt": "Zentangle {prompt} . Intricate, abstract, monochrome, patterns, meditative, highly detailed",
+    "negative_prompt": "colorful, representative, simplistic, large fields of color"
+  },
+  {
+    "name": "Collage",
+    "prompt": "Collage style {prompt} . Mixed media, layered, textural, detailed, artistic",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic"
+  },
+  {
+    "name": "Flat Papercut",
+    "prompt": "Flat papercut style {prompt} . Silhouette, clean cuts, paper, sharp edges, minimalist, color block",
+    "negative_prompt": "3D, high detail, noise, grainy, blurry, painting, drawing, photo, disfigured"
+  },
+  {
+    "name": "Kirigami",
+    "prompt": "Kirigami representation of {prompt} . 3D, paper folding, paper cutting, Japanese, intricate, symmetrical, precision, clean lines",
+    "negative_prompt": "painting, drawing, 2D, noisy, blurry, deformed"
+  },
+  {
+    "name": "Paper Mache",
+    "prompt": "Paper mache representation of {prompt} . 3D, sculptural, textured, handmade, vibrant, fun",
+    "negative_prompt": "2D, flat, photo, sketch, digital art, deformed, noisy, blurry"
+  },
+  {
+    "name": "Paper Quilling",
+    "prompt": "Paper quilling art of {prompt} . Intricate, delicate, curling, rolling, shaping, coiling, loops, 3D, dimensional, ornamental",
+    "negative_prompt": "photo, painting, drawing, 2D, flat, deformed, noisy, blurry"
+  },
+  {
+    "name": "Papercut Collage",
+    "prompt": "Papercut collage of {prompt} . Mixed media, textured paper, overlapping, asymmetrical, abstract, vibrant",
+    "negative_prompt": "photo, 3D, realistic, drawing, painting, high detail, disfigured"
+  },
+  {
+    "name": "Papercut Shadow Box",
+    "prompt": "3D papercut shadow box of {prompt} . Layered, dimensional, depth, silhouette, shadow, papercut, handmade, high contrast",
+    "negative_prompt": "painting, drawing, photo, 2D, flat, high detail, blurry, noisy, disfigured"
+  },
+  {
+    "name": "Stacked Papercut",
+    "prompt": "Stacked papercut art of {prompt} . 3D, layered, dimensional, depth, precision cut, stacked layers, papercut, high contrast",
+    "negative_prompt": "2D, flat, noisy, blurry, painting, drawing, photo, deformed"
+  },
+  {
+    "name": "Thick Layered Papercut",
+    "prompt": "Thick layered papercut art of {prompt} . Deep 3D, volumetric, dimensional, depth, thick paper, high stack, heavy texture, tangible layers",
+    "negative_prompt": "2D, flat, thin paper, low stack, smooth texture, painting, drawing, photo, deformed"
+  },
+  {
+    "name": "Mosaic",
+    "prompt": "mosaic style {prompt} . fragmented, assembled, colorful, highly detailed",
+    "negative_prompt": "whole, unbroken, monochrome"
+  },
+  {
+    "name": "Embroidery",
+    "prompt": "Embroidery {prompt}. Intricate stitching, embroidery thread, fine details, varied thread textures, textile artistry, embellished surfaces, diverse color palette, traditional and contemporary motifs, handmade and crafted, tactile and ornate.",
+    "negative_prompt": "minimalist, monochromatic."
+  },
+  {
+    "name": "Cross-Stitching",
+    "prompt": "Cross-stitching {prompt}. Intricate patterns, embroidery thread, sewing, fine details, precise stitches, textile artistry, symmetrical designs, varied color palette, traditional and contemporary motifs, handmade and crafted,canvas, nostalgic charm.",
+    "negative_prompt": "paper, paint, ink, photography."
+  },
+  {
+    "name": "Encaustic Paint",
+    "prompt": "Encaustic paint {prompt}. Textured surfaces, translucent layers, luminous quality, wax medium, rich color saturation, fluid and organic shapes, contemporary and historical influences, mixed media elements, atmospheric depth.",
+    "negative_prompt": "flat surfaces, opaque layers, lack of wax medium, muted color palette, absence of textured surfaces, non-mixed media."
+  },
+  {
+    "name": "Shibori",
+    "prompt": "Shibori {prompt}. Textured fabric, intricate patterns, resist-dyeing technique, indigo or vibrant colors, organic and flowing designs, Japanese textile art, cultural tradition, tactile and visual interest.",
+    "negative_prompt": "monochromatic."
+  },
+  {
+    "name": "Carnival Glass",
+    "prompt": "A sculpture made of Carnival glass, {prompt}. Iridescent surfaces, vibrant colors, intricate patterns, opalescent hues, reflective and prismatic effects, Art Nouveau and Art Deco influences, vintage charm, intricate detailing, lustrous and luminous appearance, Carnival Glass style.",
+    "negative_prompt": "non-iridescent surfaces, muted colors, absence of intricate patterns, lack of opalescent hues, modern and minimalist aesthetic."
+  },
+  {
+    "name": "Vitreous Enamel",
+    "prompt": "A sculpture made of Vitreous enamel {prompt}. Smooth and glossy surfaces, vibrant colors, glass-like finish, durable and resilient, intricate detailing, traditional and contemporary applications, artistic craftsmanship, jewelry and decorative objects, , Vitreous enamel, colored glass.",
+    "negative_prompt": "rough surfaces, muted colors."
+  },
+  {
+    "name": "Pebble Art",
+    "prompt": "a sculpture made of peebles, {prompt}. Pebble art style,natural materials, textured surfaces, balanced compositions, organic forms, harmonious arrangements, tactile and 3D effects, beach-inspired aesthetic, creative storytelling, artisanal craftsmanship.",
+    "negative_prompt": "non-natural materials, lack of textured surfaces, imbalanced compositions, absence of organic forms, non-tactile appearance."
+  },
+  {
+    "name": "Mokume-gane",
+    "prompt": "Mokume-gane {prompt}. Wood-grain patterns, mixed metal layers, intricate and organic designs, traditional Japanese metalwork, harmonious color combinations, artisanal craftsmanship, unique and layered textures, cultural and historical significance.",
+    "negative_prompt": "uniform metal surfaces."
+  },
+  {
+    "name": "Lite Brite Art",
+    "prompt": "Lite Brite art {prompt}. Luminous and colorful designs, pixelated compositions, retro aesthetic, glowing effects, creative patterns, interactive and playful, nostalgic charm, vibrant and dynamic arrangements.",
+    "negative_prompt": "monochromatic."
+  },
+  {
+    "name": "Scrimshaw",
+    "prompt": "A Scrimshaw engraving of {prompt}. Intricate engravings on a spermwhale's teeth, marine motifs, detailed scenes, nautical themes, black and white contrasts, historical craftsmanship, artisanal carving, storytelling compositions, maritime heritage.",
+    "negative_prompt": "colorful, modern."
+  },
+  {
+    "name": "Suminagashi",
+    "prompt": "Suminagashi {prompt}. Floating ink patterns, marbled effects, delicate and ethereal designs, water-based ink, fluid and unpredictable compositions, meditative process, monochromatic or subtle color palette, Japanese artistic tradition.",
+    "negative_prompt": "vibrant and bold color palette."
+  },
+  {
+    "name": "Inuit Carving",
+    "prompt": "A sculpture made of ivory, {prompt} made of . Sculptures, Inuit art style, intricate carvings, natural materials, storytelling motifs, arctic wildlife themes, symbolic representations, cultural traditions, earthy tones, harmonious compositions, spiritual and mythological elements.",
+    "negative_prompt": "abstract, vibrant colors."
+  },
+  {
+    "name": "Herbarium",
+    "prompt": "Herbarium drawing{prompt}. Botanical accuracy, old botanical book illustration, detailed illustrations, pressed plants, delicate and precise linework, scientific documentation, meticulous presentation, educational purpose, organic compositions, timeless aesthetic, naturalistic beauty.",
+    "negative_prompt": "abstract representation, vibrant colors, artistic interpretation, chaotic compositions, fantastical elements, digital appearance."
+  },
+  {
+    "name": "Cibulak Porcelain",
+    "prompt": "A sculpture made of blue pattern porcelain of {prompt}. Classic design, blue and white color scheme, intricate detailing, floral motifs, onion-shaped elements, historical charm, rococo, white ware, cobalt blue, underglaze pattern, fine craftsmanship, traditional elegance, delicate patterns, vintage aesthetic, Meissen, Blue Onion pattern, Cibulak.",
+    "negative_prompt": "tea, teapot, cup, teacup,bright colors, bold and modern design, absence of intricate detailing, lack of floral motifs, non-traditional shapes."
+  },
+  {
+    "name": "Gyotaku",
+    "prompt": "Gyotaku {prompt}. Fish impressions, realistic details, ink rubbings, textured surfaces, traditional Japanese art form, nature-inspired compositions, artistic representation of marine life, black and white contrasts, cultural significance.",
+    "negative_prompt": "photography."
+  },
+  {
+    "name": "Blacklight Paint",
+    "prompt": "Blacklight paint {prompt}. Fluorescent pigments, vibrant and surreal colors, ethereal glow, otherworldly effects, dynamic and psychedelic compositions, neon aesthetics, transformative in ultraviolet light, contemporary and experimental.",
+    "negative_prompt": "muted colors, traditional and realistic compositions."
+  }
+]

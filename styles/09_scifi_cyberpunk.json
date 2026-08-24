@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Biomechanical",
+    "prompt": "biomechanical style {prompt} . blend of organic and mechanical elements, futuristic, cybernetic, detailed, intricate",
+    "negative_prompt": "natural, rustic, primitive, organic, simplistic"
+  },
+  {
+    "name": "Biomechanical Cyberpunk",
+    "prompt": "biomechanical cyberpunk {prompt} . cybernetics, human-machine fusion, dystopian, organic meets artificial, dark, intricate, highly detailed",
+    "negative_prompt": "natural, colorful, deformed, sketch, low contrast, watercolor"
+  },
+  {
+    "name": "Cybernetic",
+    "prompt": "cybernetic style {prompt} . futuristic, technological, cybernetic enhancements, robotics, artificial intelligence themes",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic, historical, medieval"
+  },
+  {
+    "name": "Cybernetic Robot",
+    "prompt": "cybernetic robot {prompt} . android, AI, machine, metal, wires, tech, futuristic, highly detailed",
+    "negative_prompt": "organic, natural, human, sketch, watercolor, low contrast"
+  },
+  {
+    "name": "Cyberpunk Cityscape",
+    "prompt": "cyberpunk cityscape {prompt} . neon lights, dark alleys, skyscrapers, futuristic, vibrant colors, high contrast, highly detailed",
+    "negative_prompt": "natural, rural, deformed, low contrast, black and white, sketch, watercolor"
+  },
+  {
+    "name": "Futuristic",
+    "prompt": "futuristic style {prompt} . sleek, modern, ultramodern, high tech, detailed",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic, vintage, antique"
+  },
+  {
+    "name": "Retro Cyberpunk",
+    "prompt": "retro cyberpunk {prompt} . 80's inspired, synthwave, neon, vibrant, detailed, retro futurism",
+    "negative_prompt": "modern, desaturated, black and white, realism, low contrast"
+  },
+  {
+    "name": "Retro Futurism",
+    "prompt": "retro-futuristic {prompt} . vintage sci-fi, 50s and 60s style, atomic age, vibrant, highly detailed",
+    "negative_prompt": "contemporary, realistic, rustic, primitive"
+  },
+  {
+    "name": "Sci-Fi",
+    "prompt": "sci-fi style {prompt} . futuristic, technological, alien worlds, space themes, advanced civilizations",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, realism, photorealistic, historical, medieval"
+  },
+  {
+    "name": "Vaporwave",
+    "prompt": "vaporwave style {prompt} . retro aesthetic, cyberpunk, vibrant, neon colors, vintage 80s and 90s style, highly detailed",
+    "negative_prompt": "monochrome, muted colors, realism, rustic, minimalist, dark"
+  },
+  {
+    "name": "Neon Punk",
+    "prompt": "neonpunk style {prompt} . cyberpunk, vaporwave, neon, vibes, vibrant, stunningly beautiful, crisp, detailed, sleek, ultramodern, magenta highlights, dark purple shadows, high contrast, cinematic, ultra detailed, intricate, professional",
+    "negative_prompt": "painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured"
+  },
+  {
+    "name": "Space",
+    "prompt": "Space-themed {prompt} . Cosmic, celestial, stars, galaxies, nebulas, planets, science fiction, highly detailed",
+    "negative_prompt": "earthly, mundane, ground-based, realism"
+  },
+  {
+    "name": "Space Art",
+    "prompt": "winner of inter-galactic art contest illustrating {prompt}, symbol of the interstellar singularity. best quality, high resolution. artstyle previously unseen in the whole galaxy",
+    "negative_prompt": "created by human race, low quality, low resolution"
+  },
+  {
+    "name": "Dark Cyberpunk",
+    "prompt": "dark cyberpunk illustration of brutal {prompt} in a world without hope, ruled by ruthless criminal corporations. best quality, high resolution",
+    "negative_prompt": "low quality, low resolution"
+  },
+  {
+    "name": "Atompunk",
+    "prompt": "Atompunk illustation, {prompt} . retro-futuristic, atomic age aesthetics, sleek lines, metallic textures, futuristic technology, optimism, energy",
+    "negative_prompt": "organic, natural textures, rustic, dystopian"
+  },
+  {
+    "name": "Afrofuturism",
+    "prompt": "Afrofuturism illustration {prompt} . vibrant colors, futuristic elements, cultural symbolism, cosmic imagery, dynamic patterns, empowering narratives",
+    "negative_prompt": "monochromatic"
+  },
+  {
+    "name": "Dystopian",
+    "prompt": "Dystopian style {prompt} . Bleak, post-apocalyptic, somber, dramatic, highly detailed",
+    "negative_prompt": "ugly, deformed, noisy, blurry, low contrast, cheerful, optimistic, vibrant, colorful"
+  },
+  {
+    "name": "Metropolis",
+    "prompt": "metropolis-themed {prompt} . urban, cityscape, skyscrapers, modern, futuristic, highly detailed",
+    "negative_prompt": "rural, natural, rustic, historical, simple"
+  },
+  {
+    "name": "Techwear Fashion",
+    "prompt": "Techwear fashion {prompt} . Futuristic, cyberpunk, urban, tactical, sleek, dark, highly detailed",
+    "negative_prompt": "vintage, rural, colorful, low contrast, realism, sketch, watercolor"
+  }
+]

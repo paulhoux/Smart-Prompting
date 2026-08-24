@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Chromolithography",
+    "prompt": "Chromolithograph {prompt}. Vibrant colors, intricate details, rich color saturation, meticulous registration, multi-layered printing, decorative elements, historical charm, artistic reproductions, commercial posters, nostalgic, ornate compositions.",
+    "negative_prompt": "monochromatic, simple designs, limited color palette, imprecise registration, minimalistic, modern aesthetic, digital appearance."
+  },
+  {
+    "name": "Cross Processing Print",
+    "prompt": "Cross processing print {prompt}. Experimental color shifts, unconventional tonalities, vibrant and surreal hues, heightened contrasts, unpredictable results, artistic unpredictability, retro and vintage feel, dynamic color interplay, abstract and dreamlike.",
+    "negative_prompt": "predictable color tones, traditional processing, realistic color representation, subdued contrasts, standard photographic aesthetics."
+  },
+  {
+    "name": "Dufaycolor Photograph",
+    "prompt": "Dufaycolor photograph {prompt}. Vintage color palette, distinctive color rendering, soft and dreamy atmosphere, historical charm, unique color process, grainy texture, evocative mood, nostalgic aesthetic, hand-tinted appearance, artistic patina.",
+    "negative_prompt": "modern color reproduction, hyperrealistic tones, sharp and clear details, digital precision, contemporary aesthetic."
+  },
+  {
+    "name": "Albumen Print",
+    "prompt": "Albumen print {prompt}. Sepia tones, fine details, subtle tonal gradations, delicate highlights, vintage aesthetic, soft and muted atmosphere, historical charm, rich textures, meticulous craftsmanship, classic photographic technique, vignetting.",
+    "negative_prompt": "vibrant colors, high contrast, modern, digital appearance, sharp details, contemporary style."
+  },
+  {
+    "name": "Aquatint Print",
+    "prompt": "Aquatint print {prompt}. Soft tonal gradations, atmospheric effects, velvety textures, rich contrasts, fine details, etching process, delicate lines, nuanced shading, expressive and moody atmosphere, artistic depth.",
+    "negative_prompt": "sharp contrasts, bold lines, minimalistic."
+  },
+  {
+    "name": "Anthotype Print",
+    "prompt": "Anthotype print {prompt}. Monochrome dye, soft and muted colors, organic textures, ephemeral and delicate appearance, low details, watercolor canvas, low contrast, overexposed, silhouette, textured paper.",
+    "negative_prompt": "vibrant synthetic dyes, bold and saturated colors."
+  },
+  {
+    "name": "Bromoil Print",
+    "prompt": "Bromoil print {prompt}. Painterly effects, sepia tones, textured surfaces, rich contrasts, expressive brushwork, tonal variations, vintage aesthetic, atmospheric mood, handmade quality, artistic experimentation, darkroom craftsmanship, vignetting.",
+    "negative_prompt": "smooth surfaces, minimal brushwork, contemporary digital appearance."
+  },
+  {
+    "name": "Calotype Print",
+    "prompt": "Calotype print {prompt}. Soft focus, subtle tonal range, paper negative process, fine details, vintage aesthetic, artistic experimentation, atmospheric mood, early photographic charm, handmade quality, vignetting.",
+    "negative_prompt": "sharp focus, bold contrasts, modern aesthetic, digital photography."
+  },
+  {
+    "name": "Cyanotype Print",
+    "prompt": "Cyanotype print {prompt}. Prussian blue tones, distinctive coloration, high contrast, blueprint aesthetics, atmospheric mood, sun-exposed paper, silhouette effects, delicate details, historical charm, handmade and experimental quality.",
+    "negative_prompt": "vibrant colors, low contrast, modern and polished appearance."
+  },
+  {
+    "name": "Halftone Print",
+    "prompt": "Halftone print of {prompt}. Dot matrix pattern, grayscale tones, vintage aesthetic, newspaper print vibe, stylized dots, visual texture, black and white contrasts, retro appearance, artistic pointillism,pop culture, (Roy Lichtenstein style:1.5).",
+    "negative_prompt": "smooth gradients, continuous tones, vibrant colors."
+  },
+  {
+    "name": "Luminogram",
+    "prompt": "Luminogram {prompt}. Photogram technique, ethereal and abstract effects, light and shadow interplay, luminous quality, experimental process, direct light exposure, unique and unpredictable results, artistic experimentation.",
+    "negative_prompt": ""
+  },
+  {
+    "name": "Pictorialism",
+    "prompt": "Pictorialism illustration{prompt} . soft focus, atmospheric effects, artistic interpretation, tonality, muted colors, evocative storytelling",
+    "negative_prompt": "sharp focus, high contrast, realistic depiction, vivid colors"
+  }
+]
