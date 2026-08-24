@@ -60,8 +60,139 @@ async function setupStyleSelector(node) {
 	applyFilter(categoryWidget.value, true);
 }
 
+// ---------------------------------------------------------------------------
+// Text File disk watcher
+//
+// The frontend's "Run (on change)" works by diffing the serialized graph and
+// dispatching 'autoQueueGraphChanged' when the execution-relevant state moved.
+// It never looks at the filesystem, so editing a watched text file is invisible
+// to it. This polls the file the node points at and raises that same event when
+// the contents actually change. The auto queue handler still checks that the
+// run mode is "change", so nothing is queued unless the user asked for it.
+// ---------------------------------------------------------------------------
+const WATCH_ENABLED_SETTING = "smartPrompting.watchTextFiles";
+const WATCH_INTERVAL_SETTING = "smartPrompting.watchInterval";
+
+// node id + file name -> last seen hash
+const lastSeenHashes = new Map();
+let watchTimer = null;
+
+function getSetting(id, fallback) {
+	try {
+		const value =
+			app.extensionManager?.setting?.get(id) ?? app.ui?.settings?.getSettingValue(id);
+		return value === undefined || value === null ? fallback : value;
+	} catch (error) {
+		return fallback;
+	}
+}
+
+async function fetchFileHash(file) {
+	try {
+		const response = await api.fetchApi(
+			`/smart-prompting/text-file-hash?file=${encodeURIComponent(file)}`
+		);
+		if (!response.ok) {
+			return null;
+		}
+		return (await response.json()).hash ?? null;
+	} catch (error) {
+		return null;
+	}
+}
+
+async function pollWatchedFiles() {
+	// Collect the file each TextFile node currently points at.
+	const targets = new Map(); // file -> [key, ...]
+	for (const node of app.graph?.nodes ?? []) {
+		if (node.comfyClass !== "TextFile" || node.mode === 2 || node.mode === 4) {
+			continue; // skip muted and bypassed nodes
+		}
+		const file = node.widgets?.find((w) => w.name === "file")?.value;
+		if (!file) {
+			continue;
+		}
+		if (!targets.has(file)) {
+			targets.set(file, []);
+		}
+		targets.get(file).push(`${node.id}::${file}`);
+	}
+
+	// Forget nodes that were deleted or repointed at another file.
+	const live = new Set([...targets.values()].flat());
+	for (const key of lastSeenHashes.keys()) {
+		if (!live.has(key)) {
+			lastSeenHashes.delete(key);
+		}
+	}
+
+	let changed = false;
+	for (const [file, keys] of targets) {
+		const hash = await fetchFileHash(file);
+		if (hash === null) {
+			continue;
+		}
+		for (const key of keys) {
+			const previous = lastSeenHashes.get(key);
+			lastSeenHashes.set(key, hash);
+			// A first sighting establishes the baseline, it is not a change.
+			if (previous !== undefined && previous !== hash) {
+				changed = true;
+				console.log(`[smart-prompting] '${file}' changed on disk`);
+			}
+		}
+	}
+
+	if (changed) {
+		// Same event the change tracker raises. The auto queue handler ignores
+		// it unless the run mode is "change".
+		if (typeof api.dispatchCustomEvent === "function") {
+			api.dispatchCustomEvent("autoQueueGraphChanged");
+		} else {
+			api.dispatchEvent(new CustomEvent("autoQueueGraphChanged"));
+		}
+	}
+}
+
+function scheduleWatch() {
+	clearTimeout(watchTimer);
+	const interval = Math.max(500, Number(getSetting(WATCH_INTERVAL_SETTING, 2000)) || 2000);
+	watchTimer = setTimeout(async () => {
+		if (getSetting(WATCH_ENABLED_SETTING, true) && document.visibilityState !== "hidden") {
+			try {
+				await pollWatchedFiles();
+			} catch (error) {
+				console.warn("[smart-prompting] Text file watch failed:", error);
+			}
+		}
+		scheduleWatch();
+	}, interval);
+}
+
 app.registerExtension({
 	name: "smart-prompting",
+	settings: [
+		{
+			id: WATCH_ENABLED_SETTING,
+			category: ["smart-prompting", "Text File", "Watch for changes"],
+			name: "Re-queue when a Text File changes on disk",
+			tooltip:
+				"Polls the file each Text File node points at. When it changes, the graph is reported as changed so 'Run (on change)' re-queues. Has no effect in other run modes.",
+			type: "boolean",
+			defaultValue: true,
+		},
+		{
+			id: WATCH_INTERVAL_SETTING,
+			category: ["smart-prompting", "Text File", "Watch interval"],
+			name: "Text File watch interval (ms)",
+			type: "number",
+			defaultValue: 2000,
+			attrs: { min: 500, max: 60000, step: 500 },
+		},
+	],
+	async setup() {
+		scheduleWatch();
+	},
 	async nodeCreated(node) {
 		if (node.comfyClass === "TextStyleSelector") {
 			setupStyleSelector(node);

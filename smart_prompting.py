@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import hashlib
 import folder_paths
 
 from PIL import Image
@@ -31,6 +32,23 @@ def load_text(filename):
     items = [item.strip() for item in items]
 
     return items
+
+# Helper function that fingerprints a file on disk.
+#
+# ComfyUI caches a node's output and only re-runs it when one of its widget
+# values changes. Returning a content hash from IS_CHANGED makes the node
+# re-run whenever the file itself is edited, even if the seed stayed the same.
+def file_fingerprint(path):
+    try:
+        hasher = hashlib.sha256()
+        with open(path, 'rb') as stream:
+            for chunk in iter(lambda: stream.read(65536), b''):
+                hasher.update(chunk)
+        return hasher.hexdigest()
+    except OSError:
+        # Missing or unreadable: NaN never equals itself, so ComfyUI always
+        # treats the node as changed and the real error surfaces on execution.
+        return float("nan")
 
 # Helper function to load a JSON file containing prompt styles.
 def load_styles(filename):
@@ -238,6 +256,11 @@ class TextFile:
 
     CATEGORY = "text"
 
+    # Re-run whenever the file on disk changes, not just when a widget changes.
+    @classmethod
+    def IS_CHANGED(s, file, **kwargs):
+        return file_fingerprint(os.path.join(text_dir, file))
+
     def action(self, file, seed, divisor, prefix, suffix):
         # Load file contents
         path = os.path.join(text_dir, file)        
@@ -436,6 +459,26 @@ try:
             "all": ALL_CATEGORIES,
             "categories": {name: [s.get("name") for s in styles] for name, styles in catalog.items()},
         })
+
+    # Lets the front end notice that a text file was edited on disk. The
+    # frontend's "Run (on change)" only diffs the serialized graph, so a file
+    # edit is invisible to it until something reports that it happened.
+    @PromptServer.instance.routes.get("/smart-prompting/text-file-hash")
+    async def _smart_prompting_text_file_hash(request):
+        name = request.query.get("file", "")
+        if not name:
+            return web.json_response({"error": "missing 'file' parameter"}, status=400)
+
+        root = os.path.abspath(text_dir)
+        path = os.path.abspath(os.path.join(root, name))
+        if os.path.normcase(path) != os.path.normcase(root) and not os.path.normcase(path).startswith(os.path.normcase(root) + os.sep):
+            return web.json_response({"error": "path outside the text folder"}, status=400)
+
+        value = file_fingerprint(path)
+        if not isinstance(value, str):
+            # NaN is not valid JSON; report the file as unreadable instead.
+            value = None
+        return web.json_response({"file": name, "hash": value})
 except Exception as error:
     print(f"[smart-prompting] Style category endpoint not registered: {error}")
 
