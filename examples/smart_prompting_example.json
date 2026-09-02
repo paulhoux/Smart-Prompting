@@ -19,7 +19,7 @@
       "outputs": [
         {
           "name": "TEXT",
-          "type": "TEXT",
+          "type": "STRING",
           "links": [
             2
           ],
@@ -105,12 +105,12 @@
         },
         {
           "name": "positive",
-          "type": "TEXT",
+          "type": "STRING",
           "link": 3
         },
         {
           "name": "negative",
-          "type": "TEXT",
+          "type": "STRING",
           "link": 4,
           "slot_index": 2
         }
@@ -388,19 +388,19 @@
       "inputs": [
         {
           "name": "positive",
-          "type": "TEXT",
+          "type": "STRING",
           "link": 1
         },
         {
           "name": "negative",
-          "type": "TEXT",
+          "type": "STRING",
           "link": 2
         }
       ],
       "outputs": [
         {
           "name": "POSITIVE",
-          "type": "TEXT",
+          "type": "STRING",
           "links": [
             3
           ],
@@ -409,7 +409,7 @@
         },
         {
           "name": "NEGATIVE",
-          "type": "TEXT",
+          "type": "STRING",
           "links": [
             4
           ],
@@ -443,7 +443,7 @@
       "outputs": [
         {
           "name": "PROMPT",
-          "type": "TEXT",
+          "type": "STRING",
           "links": [
             1
           ],
@@ -542,7 +542,7 @@
       0,
       3,
       0,
-      "TEXT"
+      "STRING"
     ],
     [
       2,
@@ -550,7 +550,7 @@
       0,
       3,
       1,
-      "TEXT"
+      "STRING"
     ],
     [
       3,
@@ -558,7 +558,7 @@
       0,
       4,
       1,
-      "TEXT"
+      "STRING"
     ],
     [
       4,
@@ -566,7 +566,7 @@
       1,
       4,
       2,
-      "TEXT"
+      "STRING"
     ],
     [
       6,

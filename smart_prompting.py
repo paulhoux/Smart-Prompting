@@ -184,7 +184,7 @@ class TextString:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"text": ("STRING", {"multiline": True})}}
-    RETURN_TYPES = ("TEXT","INT",)
+    RETURN_TYPES = ("STRING","INT",)
     RETURN_NAMES = ("TEXT", "ITEM_COUNT",)
     FUNCTION = "set"
 
@@ -200,8 +200,8 @@ class TextAppend:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"text": ("TEXT",), "append": ("TEXT",)}}
-    RETURN_TYPES = ("TEXT",)
+        return {"required": {"text": ("STRING", {"forceInput": True}), "append": ("STRING", {"forceInput": True})}}
+    RETURN_TYPES = ("STRING",)
     FUNCTION = "append"
 
     CATEGORY = "text"
@@ -216,8 +216,8 @@ class TextSearchReplace:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"text": ("TEXT", ), "search_replace": ("TEXT", ), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}), "divisor": ("INT", {"default": 1, "min": 1, "max": 0xffffffffffffffff})}}
-    RETURN_TYPES = ("TEXT","INT",)
+        return {"required": {"text": ("STRING", {"forceInput": True}), "search_replace": ("STRING", {"forceInput": True}), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}), "divisor": ("INT", {"default": 1, "min": 1, "max": 0xffffffffffffffff})}}
+    RETURN_TYPES = ("STRING","INT",)
     RETURN_NAMES = ("TEXT", "SEED",)
     FUNCTION = "action"
 
@@ -250,7 +250,7 @@ class TextFile:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"file": (folder_paths.get_filename_list("texts"), ), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}), "divisor": ("INT", {"default": 1, "min": 1, "max": 0xffffffffffffffff}), "prefix": ("STRING", {"multiline": True}), "suffix": ("STRING", {"multiline": True})}}
-    RETURN_TYPES = ("TEXT","INT","INT","STRING",)
+    RETURN_TYPES = ("STRING","INT","INT","STRING",)
     RETURN_NAMES = ("TEXT", "SEED", "ITEM_COUNT","FILENAME",)
     FUNCTION = "action"
 
@@ -294,7 +294,7 @@ class TextNegatives:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"clip": ("CLIP", )}}
-    RETURN_TYPES = ("CONDITIONING","TEXT","TEXT",)
+    RETURN_TYPES = ("CONDITIONING","STRING","STRING",)
     FUNCTION = "encode"
 
     CATEGORY = "text"
@@ -317,9 +317,9 @@ class TextStyleSelector:
         return {"required": {
             "style": (get_all_style_names(), ),
             "category": (get_category_names(), ),
-            "positive": ("TEXT", ),
-            "negative": ("TEXT", )}}
-    RETURN_TYPES = ("TEXT","TEXT",)
+            "positive": ("STRING", {"forceInput": True}),
+            "negative": ("STRING", {"forceInput": True})}}
+    RETURN_TYPES = ("STRING","STRING",)
     RETURN_NAMES = ("POSITIVE", "NEGATIVE",)
     FUNCTION = "action"
 
@@ -353,7 +353,7 @@ class TextCharacterSelector:
             "ethnic": (load_text('ethnic_styles.txt'), ),
             "postfix": ("STRING", {"multiline": True}),
              }}
-    RETURN_TYPES = ("TEXT",)
+    RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("PROMPT",)
     FUNCTION = "action"
 
@@ -385,7 +385,7 @@ class TextEncodeReusable:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"clip": ("CLIP", ), "positive": ("TEXT",), "negative": ("TEXT",)}}
+        return {"required": {"clip": ("CLIP", ), "positive": ("STRING", {"forceInput": True}), "negative": ("STRING", {"forceInput": True})}}
     RETURN_TYPES = ("CONDITIONING","CONDITIONING",)
     RETURN_NAMES = ("POSITIVE","NEGATIVE")
     FUNCTION = "encode"
@@ -409,7 +409,7 @@ class SaveImageWithPrefix:
     def INPUT_TYPES(s):
         return {"required": 
                     {"images": ("IMAGE", ),
-                     "filename_prefix": ("TEXT", )},
+                     "filename_prefix": ("STRING", {"forceInput": True})},
                 "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
                 }
 
