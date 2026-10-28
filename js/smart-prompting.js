@@ -539,6 +539,79 @@ function setupTextFileStop(node) {
 	setTimeout(() => refreshLineCount(fileWidget.value), 0);
 }
 
+// ---------------------------------------------------------------------------
+// Text File: keep the line's text cached while the seed changes
+//
+// ComfyUI re-runs a node when any input upstream of it changes; it does not
+// look at the values those nodes produce. With a divisor > 1 the seed changes
+// on every run while the line stays the same, so everything fed by TEXT (an
+// LLM, a text encoder) ran again for nothing.
+//
+// When a prompt is built we therefore:
+//  - give the Text File node the first seed of the current line, so its
+//    inputs only change when the line does; and
+//  - hand anything wired to its SEED output the real seed directly, so a
+//    sampler still gets a new seed every run.
+// The workflow itself (widget values, saved files) is left untouched.
+// ---------------------------------------------------------------------------
+const TEXT_FILE_SEED_OUTPUT = 1; // TEXT, SEED, ITEM_COUNT, FILENAME
+
+function isLink(value) {
+	return Array.isArray(value) && value.length === 2 && typeof value[1] === "number";
+}
+
+function stabilizeTextFileSeeds(apiPrompt) {
+	if (!apiPrompt || typeof apiPrompt !== "object") {
+		return;
+	}
+	// node id -> the real seed
+	const realSeeds = new Map();
+	for (const [id, entry] of Object.entries(apiPrompt)) {
+		if (entry?.class_type !== "TextFile") {
+			continue;
+		}
+		const inputs = entry.inputs ?? {};
+		const seed = inputs.seed;
+		const divisor = inputs.divisor ?? 1;
+		// Seed or divisor fed by another node: leave this one alone.
+		if (!Number.isInteger(seed) || !Number.isInteger(divisor) || divisor < 1) {
+			continue;
+		}
+		realSeeds.set(String(id), seed);
+		inputs.seed = Math.floor(seed / divisor) * divisor;
+	}
+	if (realSeeds.size === 0) {
+		return;
+	}
+	for (const entry of Object.values(apiPrompt)) {
+		const inputs = entry?.inputs;
+		if (!inputs) {
+			continue;
+		}
+		for (const [name, value] of Object.entries(inputs)) {
+			if (isLink(value) && value[1] === TEXT_FILE_SEED_OUTPUT && realSeeds.has(String(value[0]))) {
+				inputs[name] = realSeeds.get(String(value[0]));
+			}
+		}
+	}
+}
+
+function setupTextFileSeedStabilizer() {
+	const original = app.graphToPrompt;
+	if (typeof original !== "function") {
+		return;
+	}
+	app.graphToPrompt = async function (...args) {
+		const result = await original.apply(this, args);
+		try {
+			stabilizeTextFileSeeds(result?.output);
+		} catch (error) {
+			console.warn("[smart-prompting] Could not adjust Text File seeds:", error);
+		}
+		return result;
+	};
+}
+
 app.registerExtension({
 	name: "smart-prompting",
 	settings: [
@@ -563,6 +636,7 @@ app.registerExtension({
 	async setup() {
 		setupTextStringCommit();
 		scheduleWatch();
+		setupTextFileSeedStabilizer();
 	},
 	async nodeCreated(node) {
 		if (node.comfyClass === "TextStyleSelector") {
