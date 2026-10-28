@@ -148,5 +148,15 @@
     "name": "Blacklight Paint",
     "prompt": "Blacklight paint {prompt}. Fluorescent pigments, vibrant and surreal colors, ethereal glow, otherworldly effects, dynamic and psychedelic compositions, neon aesthetics, transformative in ultraviolet light, contemporary and experimental.",
     "negative_prompt": "muted colors, traditional and realistic compositions."
+  },
+  {
+    "name": "Copperplate",
+    "prompt": "Copperplate engraving {prompt}. Fine lines, detailed etchings, intricate designs, traditional printmaking techniques, historical and classical aesthetics, precise craftsmanship, elegant compositions, high contrast, meticulous attention to detail.",
+    "negative_prompt": "rough textures, lack of detail, modern or abstract styles."
+  },
+  {
+    "name": "Steel Engraving",
+    "prompt": "19th century Steel engraving, Gustave Doré, {prompt}. Black and white, intricate cross hatching, fine lines, detailed etchings, intricate designs, traditional printmaking techniques, historical and classical aesthetics, precise craftsmanship, elegant compositions, high contrast, meticulous attention to detail.",
+    "negative_prompt": "rough textures, lack of detail, modern or abstract styles."
   }
 ]
