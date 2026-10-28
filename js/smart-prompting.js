@@ -129,7 +129,11 @@ async function fetchFileHash(file) {
 		if (!response.ok) {
 			return null;
 		}
-		return (await response.json()).hash ?? null;
+		const data = await response.json();
+		if (Number.isInteger(data.count)) {
+			textFileLineCounts.set(file, data.count);
+		}
+		return data.hash ?? null;
 	} catch (error) {
 		return null;
 	}
@@ -448,24 +452,91 @@ function setupTextCapture(node) {
 // ---------------------------------------------------------------------------
 // Text File: stop at the end of the file
 //
-// With at_end = "stop" the node reports when every line has been used. We then
-// set its seed control to "fixed": the seed no longer changes after a run, so
-// "Run (on change)" has nothing to react to and goes idle. To run through the
-// file again, set the seed back to 0 and the control back to "increment".
+// "Run (on change)" re-queues because the seed control changes the seed after
+// every run. With at_end = "stop" we hold the seed on the last line instead of
+// stepping past it: nothing changes, so the auto queue goes idle by itself.
+// The control stays as it is; set the seed back to 0 to run the file again
+// (in "Run (on change)" mode that starts the next pass straight away).
 // ---------------------------------------------------------------------------
-function setupTextFileEnd() {
-	api.addEventListener("smart-prompting.textfile-end", ({ detail }) => {
-		const id = detail?.node;
-		if (id === undefined || id === null) {
-			return;
+
+// file name -> number of non-empty lines, as last reported by the server
+const textFileLineCounts = new Map();
+
+async function refreshLineCount(file) {
+	if (!file) {
+		return;
+	}
+	try {
+		const response = await api.fetchApi(
+			`/smart-prompting/text-file-hash?file=${encodeURIComponent(file)}`
+		);
+		if (response.ok) {
+			const { count } = await response.json();
+			if (Number.isInteger(count)) {
+				textFileLineCounts.set(file, count);
+			}
 		}
-		const node = app.graph?.getNodeById(Number(id)) ?? app.graph?.getNodeById(id);
-		const control = node?.widgets?.find((w) => w.name === "control_after_generate");
-		if (control && control.value !== "fixed") {
-			control.value = "fixed";
-			node.setDirtyCanvas?.(true, true);
+	} catch (error) {
+		// Unknown count: the seed is simply not held back.
+	}
+}
+
+// True when stepping the seed would move past the last line of the file.
+function shouldHoldSeed(node, control) {
+	if (control.value !== "increment") {
+		return false; // decrement stops at 0 by itself; fixed/randomize untouched
+	}
+	const widget = (name) => node.widgets?.find((w) => w.name === name);
+	if (widget("at_end")?.value !== "stop") {
+		return false;
+	}
+	const count = textFileLineCounts.get(widget("file")?.value);
+	if (!Number.isInteger(count)) {
+		return false;
+	}
+	const seed = Number(widget("seed")?.value ?? 0);
+	const divisor = Math.max(1, Number(widget("divisor")?.value ?? 1));
+	return Math.floor((seed + 1) / divisor) >= count;
+}
+
+function setupTextFileStop(node) {
+	const fileWidget = node.widgets?.find((w) => w.name === "file");
+	const control = node.widgets?.find((w) => w.name === "control_after_generate");
+	if (!fileWidget || !control) {
+		return;
+	}
+
+	// Comfy calls these around every queue; which one steps the seed depends
+	// on the "Widget control mode" setting (before or after generating).
+	for (const hook of ["beforeQueued", "afterQueued"]) {
+		const original = control[hook];
+		if (typeof original !== "function") {
+			continue;
 		}
-	});
+		control[hook] = function (...args) {
+			if (shouldHoldSeed(node, control)) {
+				return; // stay on the last line
+			}
+			return original.apply(this, args);
+		};
+	}
+
+	// Keep the line count current.
+	const originalCallback = fileWidget.callback;
+	fileWidget.callback = function (value, ...args) {
+		refreshLineCount(value);
+		return originalCallback?.apply(this, [value, ...args]);
+	};
+	const onExecuted = node.onExecuted;
+	node.onExecuted = function (message) {
+		const count = message?.item_count?.[0];
+		if (Number.isInteger(count)) {
+			textFileLineCounts.set(fileWidget.value, count);
+		}
+		return onExecuted?.apply(this, arguments);
+	};
+	// The saved file name is restored after nodeCreated, so look it up a bit later.
+	setTimeout(() => refreshLineCount(fileWidget.value), 0);
 }
 
 app.registerExtension({
@@ -492,7 +563,6 @@ app.registerExtension({
 	async setup() {
 		setupTextStringCommit();
 		scheduleWatch();
-		setupTextFileEnd();
 	},
 	async nodeCreated(node) {
 		if (node.comfyClass === "TextStyleSelector") {
@@ -503,6 +573,11 @@ app.registerExtension({
 
 		if (node.comfyClass === "TextCapture") {
 			setupTextCapture(node);
+			return;
+		}
+
+		if (node.comfyClass === "TextFile") {
+			setupTextFileStop(node);
 			return;
 		}
 

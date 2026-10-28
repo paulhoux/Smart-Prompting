@@ -369,7 +369,7 @@ class TextFile:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"file": (folder_paths.get_filename_list("texts"), ), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}), "divisor": ("INT", {"default": 1, "min": 1, "max": 0xffffffffffffffff}), "prefix": ("STRING", {"multiline": True}), "suffix": ("STRING", {"multiline": True}), "at_end": (["wrap", "stop"], {"default": "wrap", "tooltip": "wrap: start again at the first line. stop: produce nothing once every line has been used, and set the seed control to 'fixed' so 'Run (on change)' stops."})}, "hidden": {"unique_id": "UNIQUE_ID"}}
+        return {"required": {"file": (folder_paths.get_filename_list("texts"), ), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}), "divisor": ("INT", {"default": 1, "min": 1, "max": 0xffffffffffffffff}), "prefix": ("STRING", {"multiline": True}), "suffix": ("STRING", {"multiline": True}), "at_end": (["wrap", "stop"], {"default": "wrap", "tooltip": "wrap: start again at the first line. stop: the seed stops at the last line, so 'Run (on change)' goes idle once every line has been used. Set the seed back to 0 to start again."})}}
     RETURN_TYPES = ("STRING","INT","INT","STRING",)
     RETURN_NAMES = ("TEXT", "SEED", "ITEM_COUNT","FILENAME",)
     FUNCTION = "action"
@@ -381,7 +381,7 @@ class TextFile:
     def IS_CHANGED(s, file, **kwargs):
         return file_fingerprint(os.path.join(text_dir, file))
 
-    def action(self, file, seed, divisor, prefix, suffix, at_end="wrap", unique_id=None):
+    def action(self, file, seed, divisor, prefix, suffix, at_end="wrap"):
         # Load file contents
         path = os.path.join(text_dir, file)        
         items = load_text(path)
@@ -392,19 +392,15 @@ class TextFile:
         # Integer division: seed / divisor loses precision for large seeds.
         position = seed // divisor
 
-        # Past the last line in "stop" mode: produce nothing and tell the
-        # front end to freeze the seed, so 'Run (on change)' goes idle.
+        # In "stop" mode the front end keeps the seed from passing the last
+        # line. A seed past the end can still arrive (typed in by hand, or the
+        # file got shorter): produce nothing rather than wrap around.
         if at_end == "stop" and position >= count:
-            print(f"Text File: all {count} lines of '{file}' processed, stopping.")
-            try:
-                from server import PromptServer
-                PromptServer.instance.send_sync("smart-prompting.textfile-end", {"node": unique_id})
-            except Exception as error:
-                print(f"Text File: could not notify the front end: {error}")
+            print(f"Text File: seed {seed} is past the last of the {count} lines in '{file}'; nothing to do.")
             if ExecutionBlocker is None:
-                raise RuntimeError(f"Text File: all {count} lines of '{file}' have been processed.")
+                raise RuntimeError(f"Text File: seed {seed} is past the last of the {count} lines in '{file}'.")
             blocked = ExecutionBlocker(None)
-            return (blocked, blocked, blocked, blocked,)
+            return {"ui": {"item_count": [count]}, "result": (blocked, blocked, blocked, blocked,)}
         
         # Obtain text line
         text = ""
@@ -423,7 +419,8 @@ class TextFile:
 
         stem = file.split(".")[0]
 
-        return (text, seed, len(items), stem,)
+        # item_count lets the front end know where the file ends.
+        return {"ui": {"item_count": [count]}, "result": (text, seed, count, stem,)}
     
 class TextCapture:
     """Passes a prompt through and saves it to a file in the 'text' folder.
@@ -650,10 +647,16 @@ try:
             return web.json_response({"error": "path outside the text folder"}, status=400)
 
         value = file_fingerprint(path)
+        count = None
         if not isinstance(value, str):
             # NaN is not valid JSON; report the file as unreadable instead.
             value = None
-        return web.json_response({"file": name, "hash": value})
+        else:
+            try:
+                count = len(load_text(path))
+            except OSError:
+                pass
+        return web.json_response({"file": name, "hash": value, "count": count})
     # Saves a prompt for the "Save to file" button on the Text Capture node.
     @PromptServer.instance.routes.post("/smart-prompting/capture")
     async def _smart_prompting_capture(request):
