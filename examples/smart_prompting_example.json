@@ -421,7 +421,7 @@
       },
       "widgets_values": [
         "Advertising",
-        "fixed"
+        "all"
       ],
       "color": "#232",
       "bgcolor": "#353"

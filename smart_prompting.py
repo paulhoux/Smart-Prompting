@@ -270,6 +270,8 @@ def find_style(style_name, category=ALL_CATEGORIES):
 
 def apply_style(style, positive, negative):
     """Merges a style entry with the incoming prompts."""
+    positive = positive or ""
+    negative = negative or ""
     prompt = positive
     negative_prompt = negative
 
@@ -463,15 +465,16 @@ class TextStyleSelector:
         return {"required": {
             "style": (get_all_style_names(), ),
             "category": (get_category_names(), ),
-            "positive": ("STRING", {"forceInput": True}),
-            "negative": ("STRING", {"forceInput": True})}}
+            "positive": ("STRING", {"forceInput": True})},
+            "optional": {
+            "negative": ("STRING", {"forceInput": True, "tooltip": "Optional. Left unconnected, only the style's own negative prompt is output."})}}
     RETURN_TYPES = ("STRING","STRING",)
     RETURN_NAMES = ("POSITIVE", "NEGATIVE",)
     FUNCTION = "action"
 
     CATEGORY = "text"
 
-    def action(self, style, positive, negative, category=ALL_CATEGORIES):
+    def action(self, style, positive, negative="", category=ALL_CATEGORIES):
         item = find_style(style, category)
         if item is None:
             print(f"[smart-prompting] Warning: style '{style}' not found, passing prompts through")
@@ -531,17 +534,18 @@ class TextEncodeReusable:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"clip": ("CLIP", ), "positive": ("STRING", {"forceInput": True}), "negative": ("STRING", {"forceInput": True})}}
+        return {"required": {"clip": ("CLIP", ), "positive": ("STRING", {"forceInput": True})},
+                "optional": {"negative": ("STRING", {"forceInput": True, "tooltip": "Optional. Left unconnected, an empty prompt is encoded."})}}
     RETURN_TYPES = ("CONDITIONING","CONDITIONING",)
     RETURN_NAMES = ("POSITIVE","NEGATIVE")
     FUNCTION = "encode"
 
     CATEGORY = "text"
 
-    def encode(self, clip, positive, negative):
+    def encode(self, clip, positive, negative=""):
         tokens = clip.tokenize(positive)
         cond_pos, pooled_pos = clip.encode_from_tokens(tokens, return_pooled=True)
-        tokens = clip.tokenize(negative)
+        tokens = clip.tokenize(negative or "")
         cond_neg, pooled_neg = clip.encode_from_tokens(tokens, return_pooled=True)
         return ([[cond_pos, {"pooled_output": pooled_pos}]], [[cond_neg, {"pooled_output": pooled_neg}]])
     

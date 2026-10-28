@@ -18,6 +18,31 @@ function getStyleCatalog() {
 	return styleCatalogPromise;
 }
 
+const CONTROL_VALUES = new Set(["fixed", "increment", "decrement", "randomize"]);
+
+// Older versions accidentally gave the Text Style Selector's 'style' widget a
+// hidden "control after generate" widget (meant for the character selector's
+// hair style). Workflows saved back then store its value right after the
+// style, which would now land in 'category'. Shift it back on load.
+function repairLegacyStyleSelectorValues(node) {
+	const onConfigure = node.onConfigure;
+	node.onConfigure = function (info) {
+		const result = onConfigure?.apply(this, arguments);
+		const saved = info?.widgets_values;
+		const categoryWidget = this.widgets?.find((w) => w.name === "category");
+		const categories = categoryWidget?.options?.values ?? [];
+		if (
+			categoryWidget &&
+			Array.isArray(saved) &&
+			CONTROL_VALUES.has(saved[1]) &&
+			!categories.includes(categoryWidget.value)
+		) {
+			categoryWidget.value = categories.includes(saved[2]) ? saved[2] : categories[0];
+		}
+		return result;
+	};
+}
+
 // Restricts the 'style' combo to the styles of the selected category.
 async function setupStyleSelector(node) {
 	const categoryWidget = node.widgets?.find((w) => w.name === "category");
@@ -156,11 +181,7 @@ async function pollWatchedFiles() {
 	if (changed) {
 		// Same event the change tracker raises. The auto queue handler ignores
 		// it unless the run mode is "change".
-		if (typeof api.dispatchCustomEvent === "function") {
-			api.dispatchCustomEvent("autoQueueGraphChanged");
-		} else {
-			api.dispatchEvent(new CustomEvent("autoQueueGraphChanged"));
-		}
+		signalGraphChanged();
 	}
 }
 
@@ -177,6 +198,100 @@ function scheduleWatch() {
 		}
 		scheduleWatch();
 	}, interval);
+}
+
+// ---------------------------------------------------------------------------
+// Text String: only a finished edit counts as a change
+//
+// In "Run (on change)" mode the frontend re-queues on every keystroke in a
+// text box. For Text String nodes we hold that signal back while the box has
+// focus and raise it once the edit is committed: when focus leaves the box.
+// Ctrl+Enter (Comfy's "Queue prompt" shortcut) already queues a run from inside
+// a text box, so there we only mark the text as committed.
+// ---------------------------------------------------------------------------
+const AUTO_QUEUE_EVENT = "autoQueueGraphChanged";
+
+// The frontend's own dispatcher, so our signals bypass the filter below.
+let dispatchUnfiltered = null;
+
+function signalGraphChanged() {
+	if (dispatchUnfiltered) {
+		dispatchUnfiltered(AUTO_QUEUE_EVENT);
+	} else if (typeof api.dispatchCustomEvent === "function") {
+		api.dispatchCustomEvent(AUTO_QUEUE_EVENT);
+	} else {
+		api.dispatchEvent(new CustomEvent(AUTO_QUEUE_EVENT));
+	}
+}
+
+// node id -> text value when the current edit started
+let committedTexts = new Map();
+
+function textStringNodes() {
+	return (app.graph?.nodes ?? []).filter((node) => node.comfyClass === "TextString");
+}
+
+function readText(node) {
+	return node.widgets?.find((w) => w.name === "text")?.value;
+}
+
+function snapshotTextStrings() {
+	committedTexts = new Map(textStringNodes().map((node) => [node.id, readText(node)]));
+}
+
+function hasUncommittedText() {
+	return textStringNodes().some(
+		(node) => committedTexts.has(node.id) && committedTexts.get(node.id) !== readText(node)
+	);
+}
+
+function isTextField(element) {
+	return (
+		element instanceof HTMLElement &&
+		(element.tagName === "TEXTAREA" || element.tagName === "INPUT" || element.isContentEditable)
+	);
+}
+
+function setupTextStringCommit() {
+	if (typeof api.dispatchCustomEvent !== "function") {
+		return; // Front end too old to filter; keep its default behaviour.
+	}
+
+	dispatchUnfiltered = api.dispatchCustomEvent.bind(api);
+	api.dispatchCustomEvent = function (type, ...args) {
+		// Swallow re-queue requests caused by typing in a Text String box.
+		// Its value is still captured, so a manual Run uses what you typed.
+		if (type === AUTO_QUEUE_EVENT && isTextField(document.activeElement) && hasUncommittedText()) {
+			return false;
+		}
+		return dispatchUnfiltered(type, ...args);
+	};
+
+	// Remember the text before any edit starts.
+	document.addEventListener("focusin", (event) => {
+		if (isTextField(event.target)) {
+			snapshotTextStrings();
+		}
+	}, true);
+
+	// Leaving the box commits the edit.
+	document.addEventListener("focusout", (event) => {
+		if (!isTextField(event.target)) {
+			return;
+		}
+		const changed = hasUncommittedText();
+		snapshotTextStrings();
+		if (changed) {
+			signalGraphChanged();
+		}
+	}, true);
+
+	// Ctrl+Enter queues a run by itself; just mark the text as committed.
+	window.addEventListener("keydown", (event) => {
+		if (event.key === "Enter" && (event.ctrlKey || event.metaKey) && isTextField(event.target)) {
+			snapshotTextStrings();
+		}
+	}, true);
 }
 
 // ---------------------------------------------------------------------------
@@ -352,15 +467,24 @@ app.registerExtension({
 		},
 	],
 	async setup() {
+		setupTextStringCommit();
 		scheduleWatch();
 	},
 	async nodeCreated(node) {
 		if (node.comfyClass === "TextStyleSelector") {
+			repairLegacyStyleSelectorValues(node);
 			setupStyleSelector(node);
+			return;
 		}
 
 		if (node.comfyClass === "TextCapture") {
 			setupTextCapture(node);
+			return;
+		}
+
+		// The value controls below belong to the Text Character Selector only;
+		// other nodes can have widgets with the same names.
+		if (node.comfyClass !== "TextCharacterSelector") {
 			return;
 		}
 
