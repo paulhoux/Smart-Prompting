@@ -2,6 +2,8 @@ import os
 import re
 import json
 import hashlib
+import locale
+import threading
 import folder_paths
 
 from PIL import Image
@@ -17,19 +19,41 @@ folder_paths.folder_names_and_paths["texts"] = ([text_dir], supported_text_exten
 # Our base path.
 base_dir = os.path.dirname( os.path.realpath(__file__) )
 
+# Helper function that works out how a text file is encoded.
+#
+# Returns (codec to read the file with, codec to append to it with). Files
+# written by Windows tools are not always UTF-8: PowerShell's '>' writes
+# UTF-16 and Notepad used to write the ANSI code page.
+def detect_encoding(data):
+    if data.startswith(b'\xff\xfe'):
+        return 'utf-16', 'utf-16-le'
+    if data.startswith(b'\xfe\xff'):
+        return 'utf-16', 'utf-16-be'
+    if data.startswith(b'\xef\xbb\xbf'):
+        return 'utf-8-sig', 'utf-8'
+    try:
+        data.decode('utf-8')
+        return 'utf-8', 'utf-8'
+    except UnicodeDecodeError:
+        fallback = locale.getpreferredencoding(False) or 'cp1252'
+        return fallback, fallback
+
+# Helper function that reads a text file whatever its encoding.
+def read_text(path):
+    with open(path, 'rb') as stream:
+        data = stream.read()
+    read_codec, append_codec = detect_encoding(data)
+    return data.decode(read_codec, errors='replace'), append_codec
+
 # Helper function to load a text file and split each line into a separate item.
 def load_text(filename):
     path = os.path.join(base_dir, filename)
 
     # Load file contents
-    stream = open( path, 'r')
-    lines = stream.readlines()
+    content, _ = read_text(path)
 
-    # Remove empty lines
-    items = list(filter(lambda x: x.strip() != '', lines))
-
-    # Trim white space
-    items = [item.strip() for item in items]
+    # Remove empty lines and trim white space
+    items = [line.strip() for line in content.splitlines() if line.strip()]
 
     return items
 
@@ -49,6 +73,93 @@ def file_fingerprint(path):
         # Missing or unreadable: NaN never equals itself, so ComfyUI always
         # treats the node as changed and the real error surfaces on execution.
         return float("nan")
+
+# ---------------------------------------------------------------------------
+# Prompt capture
+#
+# Appends prompts to a file in the 'text' folder, so the Text File node can
+# pick them up again. Used by the Text Capture node (auto mode) and by the
+# /smart-prompting/capture endpoint behind its "Save to file" button.
+# ---------------------------------------------------------------------------
+_capture_lock = threading.Lock()
+
+def prompt_to_line(text):
+    """Text File reads one prompt per line, so line breaks become spaces."""
+    return re.sub(r'\s*[\r\n]+\s*', ' ', text or '').strip()
+
+def resolve_text_file(name):
+    """Returns (absolute path, name relative to the text folder)."""
+    name = (name or '').strip()
+    if not name:
+        raise ValueError("No file name given")
+    if not name.lower().endswith('.txt'):
+        name += '.txt'
+
+    root = os.path.abspath(text_dir)
+    path = os.path.abspath(os.path.join(root, name))
+    if not os.path.normcase(path).startswith(os.path.normcase(root) + os.sep):
+        raise ValueError(f"'{name}' is outside the text folder")
+
+    return path, os.path.relpath(path, root)
+
+def save_prompt(file, text):
+    """Appends a prompt as a new line unless the file already has it.
+
+    Returns a dict with 'status' (saved, duplicate, empty or error), the file
+    name, the number of prompts in the file and its new fingerprint.
+    """
+    result = {"status": "error", "file": file, "count": 0, "created": False, "hash": None, "message": ""}
+
+    try:
+        path, relative = resolve_text_file(file)
+    except ValueError as error:
+        result["message"] = str(error)
+        return result
+    result["file"] = relative
+
+    line = prompt_to_line(text)
+    if not line:
+        result["status"] = "empty"
+        result["message"] = "Nothing to save, the prompt is empty"
+        return result
+
+    try:
+        with _capture_lock:
+            exists = os.path.exists(path)
+            content, append_codec = read_text(path) if exists else ('', 'utf-8')
+            lines = [item.strip() for item in content.splitlines() if item.strip()]
+
+            if line in lines:
+                result["status"] = "duplicate"
+            else:
+                # Keep whatever line ending the file already uses.
+                if '\r\n' in content:
+                    newline = '\r\n'
+                elif '\n' in content:
+                    newline = '\n'
+                else:
+                    newline = '\r\n' if os.name == 'nt' else '\n'
+
+                chunk = line + newline
+                if content and not content.endswith(('\n', '\r')):
+                    chunk = newline + chunk
+
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, 'ab') as stream:
+                    stream.write(chunk.encode(append_codec, errors='replace'))
+
+                lines.append(line)
+                result["status"] = "saved"
+                result["created"] = not exists
+
+            result["count"] = len(lines)
+            fingerprint = file_fingerprint(path)
+            result["hash"] = fingerprint if isinstance(fingerprint, str) else None
+    except OSError as error:
+        result["status"] = "error"
+        result["message"] = str(error)
+
+    return result
 
 # Helper function to load a JSON file containing prompt styles.
 def load_styles(filename):
@@ -287,6 +398,41 @@ class TextFile:
 
         return (text, seed, len(items), stem,)
     
+class TextCapture:
+    """Passes a prompt through and saves it to a file in the 'text' folder.
+
+    In 'manual' mode nothing is written until the "Save to file" button on the
+    node is clicked; the node only shows the prompt it received. In 'auto' mode
+    every new prompt is appended as soon as the node runs.
+    """
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "text": ("STRING", {"forceInput": True}),
+            "file": ("STRING", {"default": "captured.txt", "tooltip": "File in the 'text' folder to add prompts to. Created when it does not exist yet."}),
+            "mode": (["manual", "auto"], {"default": "manual", "tooltip": "manual: save with the button. auto: save every new prompt when the node runs."})}}
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("TEXT",)
+    FUNCTION = "capture"
+
+    # Runs even when nothing is connected to its output.
+    OUTPUT_NODE = True
+
+    CATEGORY = "text"
+
+    def capture(self, text, file, mode):
+        ui = {"text": [prompt_to_line(text)]}
+
+        if mode == "auto":
+            result = save_prompt(file, text)
+            ui["saved"] = [result]
+            print(f"[smart-prompting] Text Capture: {result['status']} '{result['file']}'", result["message"])
+
+        return {"ui": ui, "result": (text,)}
+
 class TextNegatives:
     def __init__(self):
         pass
@@ -479,6 +625,18 @@ try:
             # NaN is not valid JSON; report the file as unreadable instead.
             value = None
         return web.json_response({"file": name, "hash": value})
+    # Saves a prompt for the "Save to file" button on the Text Capture node.
+    @PromptServer.instance.routes.post("/smart-prompting/capture")
+    async def _smart_prompting_capture(request):
+        try:
+            body = await request.json()
+        except Exception:
+            return web.json_response({"status": "error", "message": "invalid request"}, status=400)
+
+        result = save_prompt(str(body.get("file", "")), str(body.get("text", "")))
+        if result["status"] == "saved":
+            print(f"[smart-prompting] Text Capture: saved to '{result['file']}' ({result['count']} prompts)")
+        return web.json_response(result, status=400 if result["status"] == "error" else 200)
 except Exception as error:
     print(f"[smart-prompting] Style category endpoint not registered: {error}")
 
@@ -490,6 +648,7 @@ NODE_CLASS_MAPPINGS = {
     "TextAppend": TextAppend,
     "TextSearchReplace": TextSearchReplace,
     "TextFile": TextFile,
+    "TextCapture": TextCapture,
     "TextNegatives": TextNegatives,
     "TextStyleSelector": TextStyleSelector,
     "TextCharacterSelector": TextCharacterSelector,
@@ -503,6 +662,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "TextAppend": "Text Append",
     "TextSearchReplace": "Text Search & Replace",
     "TextFile": "Text File",
+    "TextCapture": "Text Capture",
     "TextNegatives": "Text Negatives",
     "TextStyleSelector": "Text Style Selector",
     "TextCharacterSelector": "Text Character Selector",
