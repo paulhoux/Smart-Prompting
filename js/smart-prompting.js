@@ -445,6 +445,29 @@ function setupTextCapture(node) {
 	};
 }
 
+// ---------------------------------------------------------------------------
+// Text File: stop at the end of the file
+//
+// With at_end = "stop" the node reports when every line has been used. We then
+// set its seed control to "fixed": the seed no longer changes after a run, so
+// "Run (on change)" has nothing to react to and goes idle. To run through the
+// file again, set the seed back to 0 and the control back to "increment".
+// ---------------------------------------------------------------------------
+function setupTextFileEnd() {
+	api.addEventListener("smart-prompting.textfile-end", ({ detail }) => {
+		const id = detail?.node;
+		if (id === undefined || id === null) {
+			return;
+		}
+		const node = app.graph?.getNodeById(Number(id)) ?? app.graph?.getNodeById(id);
+		const control = node?.widgets?.find((w) => w.name === "control_after_generate");
+		if (control && control.value !== "fixed") {
+			control.value = "fixed";
+			node.setDirtyCanvas?.(true, true);
+		}
+	});
+}
+
 app.registerExtension({
 	name: "smart-prompting",
 	settings: [
@@ -469,6 +492,7 @@ app.registerExtension({
 	async setup() {
 		setupTextStringCommit();
 		scheduleWatch();
+		setupTextFileEnd();
 	},
 	async nodeCreated(node) {
 		if (node.comfyClass === "TextStyleSelector") {

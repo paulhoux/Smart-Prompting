@@ -10,6 +10,13 @@ from PIL import Image
 from PIL.PngImagePlugin import PngInfo
 import numpy as np
 
+# ExecutionBlocker lets a node skip everything downstream of it without an
+# error. Older ComfyUI builds lack it; there we fall back to an exception.
+try:
+    from comfy_execution.graph import ExecutionBlocker
+except ImportError:
+    ExecutionBlocker = None
+
 # TextFile input path is the 'text' folder inside ComfyUI's root folder.
 supported_text_extensions = set(['.txt'])
 text_dir = os.path.join(folder_paths.base_path, "text")
@@ -362,7 +369,7 @@ class TextFile:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"file": (folder_paths.get_filename_list("texts"), ), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}), "divisor": ("INT", {"default": 1, "min": 1, "max": 0xffffffffffffffff}), "prefix": ("STRING", {"multiline": True}), "suffix": ("STRING", {"multiline": True})}}
+        return {"required": {"file": (folder_paths.get_filename_list("texts"), ), "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}), "divisor": ("INT", {"default": 1, "min": 1, "max": 0xffffffffffffffff}), "prefix": ("STRING", {"multiline": True}), "suffix": ("STRING", {"multiline": True}), "at_end": (["wrap", "stop"], {"default": "wrap", "tooltip": "wrap: start again at the first line. stop: produce nothing once every line has been used, and set the seed control to 'fixed' so 'Run (on change)' stops."})}, "hidden": {"unique_id": "UNIQUE_ID"}}
     RETURN_TYPES = ("STRING","INT","INT","STRING",)
     RETURN_NAMES = ("TEXT", "SEED", "ITEM_COUNT","FILENAME",)
     FUNCTION = "action"
@@ -374,17 +381,35 @@ class TextFile:
     def IS_CHANGED(s, file, **kwargs):
         return file_fingerprint(os.path.join(text_dir, file))
 
-    def action(self, file, seed, divisor, prefix, suffix):
+    def action(self, file, seed, divisor, prefix, suffix, at_end="wrap", unique_id=None):
         # Load file contents
         path = os.path.join(text_dir, file)        
         items = load_text(path)
+        count = len(items)
         
-        print(f"Number of lines in file:", len(items))
+        print(f"Number of lines in file:", count)
+
+        # Integer division: seed / divisor loses precision for large seeds.
+        position = seed // divisor
+
+        # Past the last line in "stop" mode: produce nothing and tell the
+        # front end to freeze the seed, so 'Run (on change)' goes idle.
+        if at_end == "stop" and position >= count:
+            print(f"Text File: all {count} lines of '{file}' processed, stopping.")
+            try:
+                from server import PromptServer
+                PromptServer.instance.send_sync("smart-prompting.textfile-end", {"node": unique_id})
+            except Exception as error:
+                print(f"Text File: could not notify the front end: {error}")
+            if ExecutionBlocker is None:
+                raise RuntimeError(f"Text File: all {count} lines of '{file}' have been processed.")
+            blocked = ExecutionBlocker(None)
+            return (blocked, blocked, blocked, blocked,)
         
         # Obtain text line
         text = ""
-        if( len(items) > 0 ):
-            index = int( seed / divisor ) % len( items )
+        if( count > 0 ):
+            index = position % count
             text = items[index].strip()
 
         # Prefix and suffix
